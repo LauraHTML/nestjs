@@ -1,0 +1,52 @@
+model Orders {
+    id          Int      @id @default(autoincrement())
+    idUser      Int
+    orderDate   DateTime @default(now())
+    orderStatus Status   @default(PENDING)
+
+    //relações
+    payments   Payment[]
+    orderItens OrderItens[]
+    client     User         @relation(fields: [idUser], references: [id])
+}
+
+model OrderItens {
+    id        Int @id @default(autoincrement())
+    idOrder   Int
+    idVariant Int
+    quantity  Int
+    unitPrice Int
+
+    order   Orders   @relation(fields: [idOrder], references: [id])
+    variant Variants @relation(fields: [idVariant], references: [id])
+}
+
+enum Status {
+    COMPLETED
+    PENDING
+    REFUSED
+}
+
+model Payment {
+    id            Int      @id @default(autoincrement())
+    idUser        Int
+    idOrder       Int
+    paymentDate   DateTime @default(now())
+    paymentMetod  Methods
+    paymentStatus Status
+
+    //mercado pago
+    id_transacao_gateway String?
+
+    //relações
+    client User   @relation(fields: [idUser], references: [id])
+    //idOrder -> tabela atual , references id -> pedidos
+    order  Orders @relation(fields: [idOrder], references: [id])
+}
+
+enum Methods {
+    PIX
+    CARTAO
+    BOLETO
+    PAYPAL
+}
