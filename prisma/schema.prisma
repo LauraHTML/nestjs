@@ -7,6 +7,7 @@ generator client {
   provider = "prisma-client"
   output   = "../src/generated/prisma"
   schemas  = ["users", "products", "categories", "orderItens", "productVariants", "payment", "cart", "cartItens"]
+  moduleFormat    = "cjs"
 }
 
 datasource db {
