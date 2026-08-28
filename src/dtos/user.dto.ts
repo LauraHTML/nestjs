@@ -30,7 +30,7 @@ export class responseUserDto {
     telephone!: number;
 };
 
-export class updateUserDto {
+export class UpdateUserDto {
     name!: string;
     email!: string;
     userName!: string;
