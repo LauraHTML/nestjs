@@ -2,7 +2,6 @@
 import { Module } from '@nestjs/common';
 import { AppService } from './app.service';
 import { UsersController } from './controllers/user.controller';
-// import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
   imports: [],

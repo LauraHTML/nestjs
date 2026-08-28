@@ -17,8 +17,8 @@
 
 import * as runtime from "@prisma/client/runtime/index-browser"
 
-export type * from '../models'
-export type * from './prismaNamespace'
+export type * from '../models.js'
+export type * from './prismaNamespace.js'
 
 export const Decimal = runtime.Decimal
 
@@ -51,7 +51,13 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
-  User: 'User'
+  Categories: 'Categories',
+  OrderItens: 'OrderItens',
+  Orders: 'Orders',
+  Payment: 'Payment',
+  Product: 'Product',
+  User: 'User',
+  Variants: 'Variants'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -70,13 +76,82 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
+export const CategoriesScalarFieldEnum = {
+  id: 'id',
+  categoryName: 'categoryName',
+  description: 'description'
+} as const
+
+export type CategoriesScalarFieldEnum = (typeof CategoriesScalarFieldEnum)[keyof typeof CategoriesScalarFieldEnum]
+
+
+export const OrderItensScalarFieldEnum = {
+  id: 'id',
+  idOrder: 'idOrder',
+  idVariant: 'idVariant',
+  quantity: 'quantity',
+  unitPrice: 'unitPrice'
+} as const
+
+export type OrderItensScalarFieldEnum = (typeof OrderItensScalarFieldEnum)[keyof typeof OrderItensScalarFieldEnum]
+
+
+export const OrdersScalarFieldEnum = {
+  id: 'id',
+  idUser: 'idUser',
+  orderDate: 'orderDate',
+  orderStatus: 'orderStatus'
+} as const
+
+export type OrdersScalarFieldEnum = (typeof OrdersScalarFieldEnum)[keyof typeof OrdersScalarFieldEnum]
+
+
+export const PaymentScalarFieldEnum = {
+  id: 'id',
+  idUser: 'idUser',
+  idOrder: 'idOrder',
+  paymentDate: 'paymentDate',
+  paymentMetod: 'paymentMetod',
+  paymentStatus: 'paymentStatus',
+  id_transacao_gateway: 'id_transacao_gateway'
+} as const
+
+export type PaymentScalarFieldEnum = (typeof PaymentScalarFieldEnum)[keyof typeof PaymentScalarFieldEnum]
+
+
+export const ProductScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  idCategory: 'idCategory',
+  price: 'price',
+  stock: 'stock',
+  description: 'description'
+} as const
+
+export type ProductScalarFieldEnum = (typeof ProductScalarFieldEnum)[keyof typeof ProductScalarFieldEnum]
+
+
 export const UserScalarFieldEnum = {
   id: 'id',
   email: 'email',
-  name: 'name'
+  name: 'name',
+  adress: 'adress',
+  password: 'password',
+  userName: 'userName'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const VariantsScalarFieldEnum = {
+  id: 'id',
+  idProduct: 'idProduct',
+  color: 'color',
+  stock: 'stock',
+  variantCode: 'variantCode'
+} as const
+
+export type VariantsScalarFieldEnum = (typeof VariantsScalarFieldEnum)[keyof typeof VariantsScalarFieldEnum]
 
 
 export const SortOrder = {

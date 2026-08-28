@@ -1,15 +1,92 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
   provider = "prisma-client"
   output   = "../src/generated/prisma"
-  schemas  = ["users", "products", "categories", "orderItens", "productVariants", "payment", "cart", "cartItens"]
-  moduleFormat    = "cjs"
 }
 
 datasource db {
   provider = "postgresql"
+}
+
+model Categories {
+  id           Int       @id @default(autoincrement())
+  categoryName String
+  description  String
+  Product      Product[]
+}
+
+model OrderItens {
+  id        Int      @id @default(autoincrement())
+  idOrder   Int
+  idVariant Int
+  quantity  Int
+  unitPrice Int
+  Orders    Orders   @relation(fields: [idOrder], references: [id])
+  Variants  Variants @relation(fields: [idVariant], references: [id])
+}
+
+model Orders {
+  id          Int          @id @default(autoincrement())
+  idUser      Int
+  orderDate   DateTime     @default(now())
+  orderStatus Status       @default(PENDING)
+  OrderItens  OrderItens[]
+  User        User         @relation(fields: [idUser], references: [id])
+  Payment     Payment[]
+}
+
+model Payment {
+  id                   Int      @id @default(autoincrement())
+  idUser               Int
+  idOrder              Int
+  paymentDate          DateTime @default(now())
+  paymentMetod         Methods
+  paymentStatus        Status
+  id_transacao_gateway String?
+  Orders               Orders   @relation(fields: [idOrder], references: [id])
+  User                 User     @relation(fields: [idUser], references: [id])
+}
+
+model Product {
+  id          Int        @id @default(autoincrement())
+  name        String
+  idCategory  Int
+  price       Int
+  stock       Int
+  description String
+  Categories  Categories @relation(fields: [idCategory], references: [id])
+  Variants    Variants[]
+}
+
+model User {
+  id       Int       @id @default(autoincrement())
+  email    String    @unique
+  name     String?
+  adress   String
+  password String
+  userName String    @unique
+  Orders   Orders[]
+  Payment  Payment[]
+}
+
+model Variants {
+  id          Int          @id @default(autoincrement())
+  idProduct   Int
+  color       String
+  stock       Int
+  variantCode Int
+  OrderItens  OrderItens[]
+  Product     Product      @relation(fields: [idProduct], references: [id])
+}
+
+enum Methods {
+  PIX
+  CARTAO
+  BOLETO
+  PAYPAL
+}
+
+enum Status {
+  COMPLETED
+  PENDING
+  REFUSED
 }

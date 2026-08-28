@@ -9,7 +9,20 @@
 * 🟢 You can import this file directly.
 */
 
+export const Methods = {
+  PIX: 'PIX',
+  CARTAO: 'CARTAO',
+  BOLETO: 'BOLETO',
+  PAYPAL: 'PAYPAL'
+} as const
+
+export type Methods = (typeof Methods)[keyof typeof Methods]
 
 
-// This file is empty because there are no enums in the schema.
-export {}
+export const Status = {
+  COMPLETED: 'COMPLETED',
+  PENDING: 'PENDING',
+  REFUSED: 'REFUSED'
+} as const
+
+export type Status = (typeof Status)[keyof typeof Status]
