@@ -11,13 +11,13 @@ type Order = {
 export class CreateUserDto {
     idClient!: number;
     name!: string;
-    // email!: string;
-    // password!: string;
-    // userName!: string;
-    // address!: string;
-    // telephone!: number;
-    // cep!: string;
-    // cpf!: string
+    email!: string;
+    password!: string;
+    userName!: string;
+    address!: string;
+    telephone!: number;
+    cep!: string;
+    cpf!: string
 };
 
 //a resposta vai ter o mesmo formato para criar/atualizar
