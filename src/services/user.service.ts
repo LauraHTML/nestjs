@@ -2,7 +2,7 @@
 
 import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
 import { UserRepository } from '../repositories/user.repository';
-import { CreateUserDto } from '../dtos/user.dto';
+import { CreateUserDto, UpdateUserDto } from '../dtos/user.dto';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -56,7 +56,7 @@ export class UserService {
         return user;
     };
 
-    async updateUser(id: number, dto: CreateUserDto){
+    async updateUser(id: number, dto: UpdateUserDto){
         await this.findOneUser(id);
         
         if(UserService.sanitizeText(dto.password).length < 6){
