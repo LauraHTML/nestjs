@@ -1,35 +1,37 @@
-import { Controller, Get, Post, Put, Delete, Param, Body } from '@nestjs/common';
-import { CreateUserDto, UpdateUserDto} from '../dtos/user.dto';
-import { create } from 'domain';
+import { CreateUserDto } from './../dtos/user.dto';
+// src/users/users.controller.ts
+import { Controller, Get, Post, Body, Param, Put, Delete, HttpCode, HttpStatus } from '@nestjs/common';
+import { UserService } from '../services/user.service';
 
-//criando a rota usuarios
 @Controller('users')
 export class UsersController {
-    @Get()
-    findAll():string{
-        return 'Retorna todos os usuários';
-    }
-
-    @Get(':id')
-    findOne(@Param('id')id: string):string{
-        return `retorna o usuário com o id: ${id}`;
-    }
-    
-    // @Post()
-    // async criarUsuario(){
-    //   create(@Body('create') createUserDto: CreateUserDto): string {
-    //   return 'Cria um novo usuário';
-    // }
-    
-  // }
-
-    @Put(':id')
-    update(@Param('id') id: string, @Body('update') updateUserDto: UpdateUserDto): string {   
-    return `Atualiza o usuário com o ID ${id}`;
+  constructor(private readonly userService: UserService) {}
+  @Get()
+  findAll() {
+    return { message: 'Returns all users' };
   }
 
+
+  @Get(':id')
+  async findOne(@Param('id') id: number) {
+    return this.userService.findOneUser(id);
+  }
+
+  @Post()
+  async create(@Body() createUserDto: CreateUserDto) {  
+    return this.userService.createUser(createUserDto);
+  }
+
+  // PUT /users/:id - Updates an existing user
+  @Put(':id')
+  update(@Param('id') id: string, @Body() updateUserDto: any) {
+    return { message: `User ${id} updated`, data: updateUserDto };
+  }
+
+  // DELETE /users/:id - Removes a user
   @Delete(':id')
-  remove(@Param('id') id: string): string {
-    return `Deleta o usuário com o ID ${id}`;
+  @HttpCode(HttpStatus.NO_CONTENT)
+  remove(@Param('id') id: string) {
+    return;
   }
 }
