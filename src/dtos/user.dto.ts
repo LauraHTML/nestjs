@@ -14,7 +14,7 @@ export class CreateUserDto {
     email!: string;
     password!: string;
     userName!: string;
-    address!: string;
+    adress!: string;
     telephone!: number;
     cep!: string;
     cpf!: string
