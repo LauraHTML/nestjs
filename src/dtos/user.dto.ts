@@ -35,6 +35,8 @@ export class UpdateUserDto {
     email!: string;
     userName!: string;
     telephone!: string;
+    adress!: string;
+    password!: string
 };
 
 export class signInDto {
