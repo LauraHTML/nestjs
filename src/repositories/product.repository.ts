@@ -10,6 +10,15 @@ export class ProductRepository {
     return this.prisma.product.findUnique({ where: { id } });
   }
 
+  // async findAllProducts() {
+  //   return this.prisma.product.findMany({
+  //     include: {
+  //       category: true,
+  //       variant: true,
+  //     },
+  //   });
+  // }
+
   async create(data: Product): Promise<Product> {
     return this.prisma.product.create({ data });
   }

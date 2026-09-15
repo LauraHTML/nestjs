@@ -5,6 +5,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model Categories {
@@ -70,6 +71,7 @@ model User {
 
 model Variants {
   id          Int          @id @default(autoincrement())
+  name String
   idProduct   Int
   color       String
   stock       Int
