@@ -1,5 +1,3 @@
-import { z } from 'zod';
-
 export class CreateProductDto {
   //   idProduct!: number;
   name!: string;
