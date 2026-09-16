@@ -12,7 +12,7 @@ export class CategoryRepository {
     return this.prisma.categories.findUnique({ where: { id } });
   }
 
-  async create(data: Categories): Promise<Categories> {
+  async create(data: Omit<Categories, 'id'>): Promise<Categories> {
     return this.prisma.categories.create({ data });
   }
 
