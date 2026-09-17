@@ -1,16 +1,9 @@
-generator client {
-  provider = "prisma-client"
-  output   = "../src/generated/prisma"
-}
-
-datasource db {
-  provider = "postgresql"
-}
+// use prisma-8 
 
 model Categories {
   id           Int       @id @default(autoincrement())
-  categoryName String
-  description  String
+  categoryName VarChar(255)
+  description  VarChar(255)
   Product      Product[]
 }
 
@@ -27,7 +20,7 @@ model OrderItens {
 model Orders {
   id          Int          @id @default(autoincrement())
   idUser      Int
-  orderDate   DateTime     @default(now())
+  orderDate   TimestamptzString
   orderStatus Status       @default(PENDING)
   OrderItens  OrderItens[]
   User        User         @relation(fields: [idUser], references: [id])
@@ -38,7 +31,7 @@ model Payment {
   id                   Int      @id @default(autoincrement())
   idUser               Int
   idOrder              Int
-  paymentDate          DateTime @default(now())
+  paymentDate          TimestamptzString
   paymentMetod         Methods
   paymentStatus        Status
   id_transacao_gateway String?
@@ -48,20 +41,20 @@ model Payment {
 
 model Product {
   id          Int        @id @default(autoincrement())
-  name        String
+  name        VarChar(255)
   idCategory  Int
   price       Int
   stock       Int
-  description String
+  description VarChar(255)
   Categories  Categories @relation(fields: [idCategory], references: [id])
   Variants    Variants[]
 }
 
 model User {
   id       Int       @id @default(autoincrement())
-  email    String    @unique
-  name     String
-  adress   String
+  email    VarChar(150)    @unique
+  name     VarChar(100)
+  adress   VarChar(255)
   password String
   userName String    @unique
   Orders   Orders[]
@@ -70,9 +63,9 @@ model User {
 
 model Variants {
   id          Int          @id @default(autoincrement())
-  name String
+  name VarChar(255)
   idProduct   Int
-  color       String
+  color       VarChar(255)
   stock       Int
   variantCode Int
   OrderItens  OrderItens[]
@@ -80,14 +73,16 @@ model Variants {
 }
 
 enum Methods {
-  PIX
-  CARTAO
-  BOLETO
-  PAYPAL
+  @@type("pg/text@1")
+  PIX = "pix"
+  CARTAO = "cartão"
+  BOLETO = "boleto"
+  PAYPAL = "paypal"
 }
 
 enum Status {
-  COMPLETED
-  PENDING
-  REFUSED
+  @@type("pg/text@1")
+  COMPLETED = "concluído"
+  PENDING = "em processo"
+  REFUSED = "recusado"
 }
