@@ -7,17 +7,20 @@ export class ProductRepository {
   constructor(private prisma: PrismaService) {}
 
   async findProductById(id: number): Promise<Product | null> {
-    return this.prisma.product.findUnique({ where: { id } });
+    return this.prisma.product.findUnique({
+      where: { id },
+      include: { Categories: true, variant: true },
+    });
   }
 
-  // async findAllProducts() {
-  //   return this.prisma.product.findMany({
-  //     include: {
-  //       category: true,
-  //       variant: true,
-  //     },
-  //   });
-  // }
+  async findAllProducts() {
+    return this.prisma.product.findMany({
+      include: {
+        Categories: true,
+        variant: true,
+      },
+    });
+  }
 
   async create(data: Product): Promise<Product> {
     return this.prisma.product.create({ data });
