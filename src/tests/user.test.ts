@@ -10,7 +10,7 @@ const mockUserRepository = {
   delete: vi.fn(),
 };
 
-describe('Testes do repositório do usuário', () => {
+describe('Testes do serviço do usuário', () => {
   let service: UserService;
 
   beforeEach(async () => {
@@ -18,8 +18,8 @@ describe('Testes do repositório do usuário', () => {
       providers: [
         UserService,
         {
-          provide: UserRepository, // Quando o Nest procurar por isso...
-          useValue: mockUserRepository, // ...ele vai injetar isso.
+          provide: UserRepository,
+          useValue: mockUserRepository,
         },
       ],
     }).compile();
@@ -47,7 +47,6 @@ describe('Testes do repositório do usuário', () => {
     //configura o retorno do usuario, faz o mock retornar uma promise
     mockUserRepository.findUserById.mockResolvedValue(usuario);
     const resultado = await service.findOneUser(usuario.idClient);
-    console.log('usuario pelo id', resultado);
     expect(resultado).toEqual(usuario);
   });
 

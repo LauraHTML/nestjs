@@ -4,6 +4,7 @@ export class CreateVariantDto {
   color!: string;
   idProduct!: number;
   stock!: number;
+  variantCode!: number;
 }
 
 export class ResponseVariantDto {

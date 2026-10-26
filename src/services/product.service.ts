@@ -29,10 +29,6 @@ export class ProductService {
         'Por favor, escreva uma descrição mais completa para o produto',
       );
     }
-    // if (!dto.idVariants)
-    //   throw new BadRequestException(
-    //     'Por favor, coloque pelo menos uma variante padrão para o produto',
-    //   );
 
     return this.productRepository.create({
       name: dto.name,
@@ -48,6 +44,13 @@ export class ProductService {
     if (!product)
       throw new NotFoundException(`Produto com id:${id} não foi encontrado`);
     return product;
+  }
+
+  async findProducts() {
+    const products = await this.productRepository.findAllProducts();
+    console.log(products);
+    if (!products) throw new NotFoundException('Nenhum produto foi encontrado');
+    return products;
   }
 
   async updateProduct(id: number, dto: UpdateProductDto) {

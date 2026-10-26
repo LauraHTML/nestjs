@@ -4,7 +4,6 @@ export class CreateProductDto {
   idCategory!: number;
   price!: number;
   description!: string;
-  idVariants!: number[];
   inventory!: number;
 }
 
@@ -13,7 +12,6 @@ export class ResponseProductDto {
   idCategory!: number;
   price!: number;
   description!: string;
-  idVariants!: Number[];
   createdAt?: Date;
 }
 
@@ -23,6 +21,5 @@ export class UpdateProductDto {
   idCategory?: number;
   price?: number;
   description?: string;
-  idVariants?: Number[];
   inventory?: number;
 }

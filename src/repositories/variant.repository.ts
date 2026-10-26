@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.sevice';
-import { Variants } from '../generated/prisma/client';
+import { Prisma, Variants } from '../generated/prisma/client';
 
 @Injectable()
 export class VariantsRepository {
@@ -14,7 +14,7 @@ export class VariantsRepository {
     return this.prisma.variants.findMany();
   }
 
-  async create(data: Variants): Promise<Variants> {
+  async create(data: Prisma.VariantsUncheckedCreateInput): Promise<Variants> {
     return this.prisma.variants.create({ data });
   }
 
@@ -22,7 +22,7 @@ export class VariantsRepository {
     return this.prisma.variants.delete({ where: { id } });
   }
 
-  async updateVariant(id: number, data: Partial<Variants>): Promise<Variants> {
+  async update(id: number, data: Partial<Variants>): Promise<Variants> {
     return this.prisma.variants.update({ where: { id }, data });
   }
 }

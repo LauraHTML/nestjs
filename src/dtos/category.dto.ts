@@ -9,6 +9,6 @@ export class ReponseCategoryDto {
 }
 
 export class UpdateCategoryDto {
-  categoryName?: number;
+  categoryName?: string;
   description?: string;
 }

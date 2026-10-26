@@ -30,6 +30,7 @@ export class VariantService {
       color: dto.color,
       stock: dto.stock,
       idProduct: dto.idProduct,
+      variantCode: dto.variantCode,
     });
   }
 
@@ -57,7 +58,7 @@ export class VariantService {
       );
     }
 
-    return this.variantsRepository.updateVariant(id, {
+    return this.variantsRepository.update(id, {
       ...(dto.name != null && { name: dto.name }),
       ...(dto.idProduct != null && { idProduct: dto.idProduct }),
       ...(dto.stock != null && { inventory: dto.stock }),

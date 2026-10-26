@@ -1,5 +1,6 @@
 {
   "name": "ecommerce",
+  "type": "module",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -18,7 +19,7 @@
     "test:cov": "vitest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "vistest --config ./test/jest-e2e.json",
-    "postinstall": "prisma skills sync || exit 0"
+    "contract:emit": "prisma contract emit"
   },
   "dependencies": {
     "@nestjs/common": "^12.0.1",
@@ -26,6 +27,7 @@
     "@nestjs/platform-express": "^12.0.1",
     "@prisma/adapter-pg": "^7.10.0",
     "@prisma/client": "^7.10.0",
+    "@prisma/orm-postgres": "^8.0.0-rc.11",
     "pg": "^8.23.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1"
@@ -36,6 +38,7 @@
     "@nestjs/cli": "^11.0.0",
     "@nestjs/schematics": "^11.0.0",
     "@nestjs/testing": "^12.0.1",
+    "@prisma/cli-engine": "^0.4.0",
     "@types/bcrypt": "^6.0.0",
     "@types/bcryptjs": "^3.0.0",
     "@types/express": "^5.0.0",
@@ -50,7 +53,7 @@
     "eslint-plugin-prettier": "^5.2.2",
     "globals": "^17.0.0",
     "prettier": "^3.4.2",
-    "prisma": "^6.12.0",
+    "prisma": "^8.0.0-rc.15",
     "source-map-support": "^0.5.21",
     "supertest": "^7.0.0",
     "ts-jest": "^29.2.5",
