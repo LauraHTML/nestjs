@@ -7,7 +7,7 @@ import {
 import { CreateVariantDto, UpdateVariantDto } from '../dtos/variants.dto';
 
 @Injectable()
-export class VariantService {
+export class VariantsService {
   constructor(private variantsRepository: VariantsRepository) {}
 
   async createVariant(dto: CreateVariantDto) {

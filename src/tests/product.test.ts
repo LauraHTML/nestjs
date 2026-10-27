@@ -17,7 +17,7 @@ const produto = {
   idCategory: 3,
   price: 24.8,
   description: 'Caneca de chá de cerâmica',
-  inventory: 300,
+  stock: 300,
 };
 
 const produtoAtualizado = {

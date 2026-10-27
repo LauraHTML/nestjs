@@ -1,9 +1,19 @@
+import { IsInt, IsOptional, IsString } from 'class-validator';
+
 export class CreateProductDto {
-  //   idProduct!: number;
+  @IsString()
   name!: string;
+
+  @IsInt()
   idCategory!: number;
+
+  @IsInt()
   price!: number;
+
+  @IsString()
   description!: string;
+
+  @IsInt()
   stock!: number;
 }
 
@@ -17,10 +27,23 @@ export class ResponseProductDto {
 }
 
 export class UpdateProductDto {
-  //   idProduct!: number;
+  @IsOptional()
+  @IsString()
   name?: string;
+
+  @IsOptional()
+  @IsInt()
   idCategory?: number;
+
+  @IsOptional()
+  @IsInt()
   price?: number;
+
+  @IsOptional()
+  @IsString()
   description?: string;
+
+  @IsOptional()
+  @IsInt()
   stock?: number;
 }

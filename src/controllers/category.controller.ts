@@ -31,7 +31,7 @@ export class CategoryController {
   @Patch(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() updateCategoryDto: Partial<UpdateCategoryDto>,
+    @Body() updateCategoryDto: UpdateCategoryDto,
   ) {
     return this.categoryService.updateCategory(id, updateCategoryDto);
   }
