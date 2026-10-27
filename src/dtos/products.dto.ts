@@ -1,25 +1,49 @@
+import { IsInt, IsOptional, IsString } from 'class-validator';
+
 export class CreateProductDto {
-  //   idProduct!: number;
+  @IsString()
   name!: string;
+
+  @IsInt()
   idCategory!: number;
+
+  @IsInt()
   price!: number;
+
+  @IsString()
   description!: string;
-  inventory!: number;
+
+  @IsInt()
+  stock!: number;
 }
 
 export class ResponseProductDto {
+  id!: number;
   name!: string;
   idCategory!: number;
   price!: number;
+  stock!: number;
   description!: string;
-  createdAt?: Date;
 }
 
 export class UpdateProductDto {
-  //   idProduct!: number;
+  @IsOptional()
+  @IsString()
   name?: string;
+
+  @IsOptional()
+  @IsInt()
   idCategory?: number;
+
+  @IsOptional()
+  @IsInt()
   price?: number;
+
+  @IsOptional()
+  @IsString()
   description?: string;
-  inventory?: number;
+
+  @IsOptional()
+  @IsInt()
+  stock?: number;
 }

@@ -6,7 +6,11 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { UserRepository } from '../repositories/user.repository';
-import { CreateUserDto, UpdateUserDto } from '../dtos/user.dto';
+import {
+  CreateUserDto,
+  ResponseUserDto,
+  UpdateUserDto,
+} from '../dtos/user.dto';
 import { hash } from 'bcrypt-ts';
 
 @Injectable()
@@ -28,7 +32,7 @@ export class UserService {
     return hashedPassword;
   }
 
-  async createUser(dto: CreateUserDto) {
+  async createUser(dto: CreateUserDto): Promise<ResponseUserDto> {
     if (UserService.sanitizeText(dto.password).length < 6) {
       throw new BadRequestException(
         'Senha muito curta: Para a sua segurança, digite uma senha mais longa',
@@ -53,13 +57,21 @@ export class UserService {
       );
     }
 
-    return this.userRepository.create({
+    const user = await this.userRepository.create({
       email: dto.email,
       adress: dto.adress,
-      password: dto.password,
+      password: await UserService.hashPassword(dto.password),
       userName: dto.userName,
       name: dto.name,
     });
+
+    return {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      userName: user.userName,
+      adress: user.adress,
+    };
   }
 
   async findOneUser(id: number) {
