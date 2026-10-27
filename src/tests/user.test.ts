@@ -62,11 +62,12 @@ describe('Testes do serviço do usuário', () => {
       userName: 'usuario',
     };
 
-    mockUserRepository.create.mockResolvedValue(usuario);
+    mockUserRepository.create.mockResolvedValue({ ...usuario, id: 123 });
     const resultado = await service.createUser(usuario);
 
     expect(resultado).toEqual(
       expect.objectContaining({
+        id: 123,
         name: 'nome',
         email: 'sampaiolaura@gmail.com',
         userName: 'usuario',

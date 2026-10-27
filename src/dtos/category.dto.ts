@@ -1,5 +1,10 @@
+import { IsOptional, IsString } from 'class-validator';
+
 export class CreateCategoryDto {
+  @IsString()
   categoryName!: string;
+
+  @IsString()
   description!: string;
 }
 
@@ -9,6 +14,11 @@ export class ReponseCategoryDto {
 }
 
 export class UpdateCategoryDto {
+  @IsOptional()
+  @IsString()
   categoryName?: string;
+
+  @IsOptional()
+  @IsString()
   description?: string;
 }

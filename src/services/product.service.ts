@@ -108,7 +108,7 @@ export class ProductService {
     return this.productRepository.update(id, {
       ...(dto.name != null && { name: dto.name }),
       ...(dto.price != null && { price: dto.price }),
-      ...(dto.stock != null && { inventory: dto.stock }),
+      ...(dto.stock != null && { stock: dto.stock }),
       ...(dto.description != null && { description: dto.description }),
     });
   }

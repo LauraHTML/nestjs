@@ -1,9 +1,19 @@
+import { IsInt, IsOptional, IsString } from 'class-validator';
+
 export class CreateVariantDto {
-  //   idProduct!: number;
+  @IsString()
   name!: string;
+
+  @IsString()
   color!: string;
+
+  @IsInt()
   idProduct!: number;
+
+  @IsInt()
   stock!: number;
+
+  @IsInt()
   variantCode!: number;
 }
 
@@ -16,10 +26,23 @@ export class ResponseVariantDto {
 }
 
 export class UpdateVariantDto {
-  //   idProduct!: number;
+  @IsOptional()
+  @IsString()
   name?: string;
+
+  @IsOptional()
+  @IsString()
   color?: string;
+
+  @IsOptional()
+  @IsInt()
   idProduct?: number;
+
+  @IsOptional()
+  @IsInt()
   stock?: number;
-  variantCode?: string;
+
+  @IsOptional()
+  @IsInt()
+  variantCode?: number;
 }

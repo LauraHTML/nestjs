@@ -1,8 +1,4 @@
-import {
-  CreateProductDto,
-  UpdateProductDto,
-  ResponseProductDto,
-} from '../dtos/products.dto';
+import { CreateCategoryDto, UpdateCategoryDto } from './../dtos/category.dto';
 import {
   Controller,
   Get,
@@ -13,47 +9,36 @@ import {
   Delete,
   HttpCode,
   HttpStatus,
+  ParseIntPipe,
 } from '@nestjs/common';
-import { ProductService } from '../services/product.service';
+import { CategoryService } from '../services/category.service';
 
-//@: no typescript anexa informações extras a uma classe, método ou propriedade
-//expande o comportamento do elemento que ele "decora", sem mudar a lógica interna
-@Controller('products')
-export class ProductController {
-  //injeção de dependência
-  //O nest cria uma instância do ProductService e entrega para o controller
-  constructor(private readonly productService: ProductService) {}
-  //typescript: private readonly -> cria a propriedade da classe e atribui o valor de productService
-  //readonly: garante que a instância de serviço seja sobreescrita
-
-  @Get()
-  findAll(): Promise<ResponseProductDto[]> {
-    return this.productService.findProducts();
-  }
+@Controller('categories')
+export class CategoryController {
+  constructor(private readonly categoryService: CategoryService) {}
 
   @Get(':id')
-  async findOne(@Param('id') id: number) {
-    return this.productService.findOneProduct(id);
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.categoryService.findOneCategory(id);
   }
 
   @Post()
-  async createProduct(
-    @Body() createProductDto: CreateProductDto,
-  ): Promise<ResponseProductDto> {
-    return this.productService.createProduct(createProductDto);
+  @HttpCode(HttpStatus.CREATED)
+  async create(@Body() createCategoryDto: CreateCategoryDto) {
+    return this.categoryService.createCategory(createCategoryDto);
   }
 
   @Patch(':id')
-  async updateProduct(
-    @Param('id') id: number,
-    @Body() updateProductDto: Partial<UpdateProductDto>,
+  async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateCategoryDto: UpdateCategoryDto,
   ) {
-    return this.productService.updateProduct(id, updateProductDto);
+    return this.categoryService.updateCategory(id, updateCategoryDto);
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  async remove(@Param('id') id: number) {
-    return this.productService.deleteProduct(id);
+  async remove(@Param('id', ParseIntPipe) id: number) {
+    return this.categoryService.deleteCategory(id);
   }
 }

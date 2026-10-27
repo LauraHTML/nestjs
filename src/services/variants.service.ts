@@ -7,7 +7,7 @@ import {
 import { CreateVariantDto, UpdateVariantDto } from '../dtos/variants.dto';
 
 @Injectable()
-export class VariantService {
+export class VariantsService {
   constructor(private variantsRepository: VariantsRepository) {}
 
   async createVariant(dto: CreateVariantDto) {
@@ -61,7 +61,7 @@ export class VariantService {
     return this.variantsRepository.update(id, {
       ...(dto.name != null && { name: dto.name }),
       ...(dto.idProduct != null && { idProduct: dto.idProduct }),
-      ...(dto.stock != null && { inventory: dto.stock }),
+      ...(dto.stock != null && { stock: dto.stock }),
     });
   }
 
