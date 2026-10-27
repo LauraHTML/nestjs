@@ -3,14 +3,19 @@ import {
   Injectable,
   BadRequestException,
   NotFoundException,
+  InternalServerErrorException,
 } from '@nestjs/common';
-import { CreateProductDto, UpdateProductDto } from '../dtos/products.dto';
+import {
+  CreateProductDto,
+  ResponseProductDto,
+  UpdateProductDto,
+} from '../dtos/products.dto';
 
 @Injectable()
 export class ProductService {
   constructor(private productRepository: ProductRepository) {}
 
-  async createProduct(dto: CreateProductDto) {
+  async createProduct(dto: CreateProductDto): Promise<ResponseProductDto> {
     if (dto.name === '') {
       throw new BadRequestException('Por favor, coloque o nome do produto');
     }
@@ -19,7 +24,7 @@ export class ProductService {
         'Por favor, coloque um preço válido para o produto',
       );
     }
-    if (dto.inventory < 0) {
+    if (dto.stock < 0) {
       throw new BadRequestException(
         'Por favor, coloque um valor válido para o estoque',
       );
@@ -30,13 +35,14 @@ export class ProductService {
       );
     }
 
-    return this.productRepository.create({
+    const product = await this.productRepository.create({
       name: dto.name,
       idCategory: dto.idCategory,
       price: dto.price,
       description: dto.description,
-      stock: dto.inventory,
+      stock: dto.stock,
     });
+    return this.toResponseProduct(product);
   }
 
   async findOneProduct(id: number) {
@@ -46,11 +52,35 @@ export class ProductService {
     return product;
   }
 
-  async findProducts() {
+  async findProducts(): Promise<ResponseProductDto[]> {
     const products = await this.productRepository.findAllProducts();
     console.log(products);
     if (!products) throw new NotFoundException('Nenhum produto foi encontrado');
-    return products;
+    return products.map((product) => this.toResponseProduct(product));
+  }
+
+  private toResponseProduct(product: {
+    id?: number;
+    name: string;
+    idCategory: number;
+    price: number;
+    stock: number;
+    description: string;
+  }): ResponseProductDto {
+    if (product.id === undefined) {
+      throw new InternalServerErrorException(
+        'O banco de dados não retornou o id do produto',
+      );
+    }
+
+    return {
+      id: product.id,
+      name: product.name,
+      idCategory: product.idCategory,
+      price: product.price,
+      stock: product.stock,
+      description: product.description,
+    };
   }
 
   async updateProduct(id: number, dto: UpdateProductDto) {
@@ -64,7 +94,7 @@ export class ProductService {
         'Por favor, coloque um preço válido para o produto',
       );
     }
-    if (dto.inventory != null && dto.inventory < 0) {
+    if (dto.stock != null && dto.stock < 0) {
       throw new BadRequestException(
         'Por favor, coloque um valor válido para o estoque',
       );
@@ -75,11 +105,17 @@ export class ProductService {
       );
     }
 
-    return this.productRepository.updateProduct(id, {
+    return this.productRepository.update(id, {
       ...(dto.name != null && { name: dto.name }),
       ...(dto.price != null && { price: dto.price }),
-      ...(dto.inventory != null && { inventory: dto.inventory }),
+      ...(dto.stock != null && { stock: dto.stock }),
       ...(dto.description != null && { description: dto.description }),
     });
+  }
+
+  async deleteProduct(id: number) {
+    await this.findOneProduct(id);
+
+    return this.productRepository.delete(id);
   }
 }

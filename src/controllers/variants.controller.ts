@@ -11,11 +11,11 @@ import {
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
-import { VariantService } from '../services/variants.service';
+import { VariantsService } from '../services/variants.service';
 
 @Controller('variants')
-export class UserController {
-  constructor(private readonly variantService: VariantService) {}
+export class VariantsController {
+  constructor(private readonly variantService: VariantsService) {}
 
   @Get(':id')
   async findOne(@Param('id') id: number) {
@@ -31,7 +31,7 @@ export class UserController {
   @Patch(':id')
   async update(
     @Param('id') id: number,
-    @Body() updateVariantDto: Partial<UpdateVariantDto>,
+    @Body() updateVariantDto: UpdateVariantDto,
   ) {
     return this.variantService.updateVariant(id, updateVariantDto);
   }

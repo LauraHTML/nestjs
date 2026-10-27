@@ -9,15 +9,16 @@ import {
   Delete,
   HttpCode,
   HttpStatus,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { CategoryService } from '../services/category.service';
 
-@Controller('users')
-export class UserController {
+@Controller('categories')
+export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
   @Get(':id')
-  async findOne(@Param('id') id: number) {
+  async findOne(@Param('id', ParseIntPipe) id: number) {
     return this.categoryService.findOneCategory(id);
   }
 
@@ -29,15 +30,15 @@ export class UserController {
 
   @Patch(':id')
   async update(
-    @Param('id') id: number,
-    @Body() updateCategoryDto: Partial<UpdateCategoryDto>,
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateCategoryDto: UpdateCategoryDto,
   ) {
     return this.categoryService.updateCategory(id, updateCategoryDto);
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  async remove(@Param('id') id: number) {
+  async remove(@Param('id', ParseIntPipe) id: number) {
     return this.categoryService.deleteCategory(id);
   }
 }

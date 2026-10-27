@@ -1,4 +1,4 @@
-import { VariantService } from '../services/variants.service';
+import { VariantsService } from '../services/variants.service';
 import { VariantsRepository } from '../repositories/variant.repository';
 import { describe, expect, beforeEach, vi, test } from 'vitest';
 import { Test } from '@nestjs/testing';
@@ -11,12 +11,12 @@ const mockVariantRepository = {
 };
 
 describe('Testes da camada serviço das categorias (sem erros)', () => {
-  let service: VariantService;
+  let service: VariantsService;
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
       providers: [
-        VariantService,
+        VariantsService,
         {
           provide: VariantsRepository,
           useValue: mockVariantRepository,
@@ -24,7 +24,7 @@ describe('Testes da camada serviço das categorias (sem erros)', () => {
       ],
     }).compile();
 
-    service = module.get<VariantService>(VariantService);
+    service = module.get<VariantsService>(VariantsService);
   });
 
   test('Deve voltar definido', () => {
