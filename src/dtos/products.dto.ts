@@ -4,15 +4,16 @@ export class CreateProductDto {
   idCategory!: number;
   price!: number;
   description!: string;
-  inventory!: number;
+  stock!: number;
 }
 
 export class ResponseProductDto {
+  id!: number;
   name!: string;
   idCategory!: number;
   price!: number;
+  stock!: number;
   description!: string;
-  createdAt?: Date;
 }
 
 export class UpdateProductDto {
@@ -21,5 +22,5 @@ export class UpdateProductDto {
   idCategory?: number;
   price?: number;
   description?: string;
-  inventory?: number;
+  stock?: number;
 }
