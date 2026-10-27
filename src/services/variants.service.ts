@@ -61,7 +61,7 @@ export class VariantService {
     return this.variantsRepository.update(id, {
       ...(dto.name != null && { name: dto.name }),
       ...(dto.idProduct != null && { idProduct: dto.idProduct }),
-      ...(dto.stock != null && { inventory: dto.stock }),
+      ...(dto.stock != null && { stock: dto.stock }),
     });
   }
 
