@@ -10,10 +10,33 @@ const mockUserRepository = {
   delete: vi.fn(),
 };
 
+const usuario = {
+  idClient: 1,
+  name: 'nome',
+  email: 'samps@gmail.com',
+  password: 'senhatop',
+  userName: 'usuario',
+  adress: 'rua sao longinho 123, centro',
+  telephone: 11654323235,
+  cep: 87745,
+  cpf: '456432357623',
+};
+
+//atualizações
+const usuarioAtualizado = {
+  idClient: 1,
+  name: 'nome mais legal',
+  password: 'senhaFacil123',
+  adress: 'barra funda, centro, 123',
+};
+
 describe('Testes do serviço do usuário', () => {
   let service: UserService;
 
   beforeEach(async () => {
+    vi.resetAllMocks();
+    vi.resetAllMocks();
+
     const module = await Test.createTestingModule({
       providers: [
         UserService,
@@ -32,18 +55,6 @@ describe('Testes do serviço do usuário', () => {
   });
 
   test('Busca o usuário pelo id', async () => {
-    const usuario = {
-      adress: 'rua sao longinho 123, centro',
-      cep: '87745',
-      cpf: '456432357623',
-      email: 'samps@gmail.com',
-      idClient: 1,
-      name: 'nome',
-      password: 'senhatop',
-      telephone: '11 654323235',
-      userName: 'usuario',
-    };
-
     //configura o retorno do usuario, faz o mock retornar uma promise
     mockUserRepository.findUserById.mockResolvedValue(usuario);
     const resultado = await service.findOneUser(usuario.idClient);
@@ -51,17 +62,6 @@ describe('Testes do serviço do usuário', () => {
   });
 
   test('Cria um novo usuário', async () => {
-    const usuario = {
-      adress: 'rua sao longinho 123, centro',
-      cep: 87745,
-      cpf: '456432357623',
-      email: 'sampaiolaura@gmail.com',
-      name: 'nome',
-      password: 'senhatop',
-      telephone: 11654323235,
-      userName: 'usuario',
-    };
-
     mockUserRepository.create.mockResolvedValue({ ...usuario, id: 123 });
     const resultado = await service.createUser(usuario);
 
@@ -76,26 +76,6 @@ describe('Testes do serviço do usuário', () => {
   });
 
   test('Atualizar informações do usuário', async () => {
-    const usuario = {
-      idClient: 1,
-      name: 'nome',
-      email: 'samps@gmail.com',
-      password: 'senhatop',
-      userName: 'usuario',
-      adress: 'rua sao longinho 123, centro',
-      telephone: '11 654323235',
-      cep: '87745',
-      cpf: '456432357623',
-    };
-
-    //atualizações
-    const usuarioAtualizado = {
-      idClient: 1,
-      name: 'nome mais legal',
-      password: 'senhaFacil123',
-      adress: 'barra funda, centro, 123',
-    };
-
     mockUserRepository.update.mockResolvedValue(usuarioAtualizado);
     const resultado = await service.updateUser(
       usuario.idClient,
@@ -111,10 +91,15 @@ describe('Testes do serviço do usuário', () => {
     );
   });
 
-  // test('Fazer login', () => {
-  //   const usuario = {
-  //     email: 'email@gmail.com',
-  //     senha: 'senha123',
-  //   };
-  // });
+  test('Deletar usuário', async () => {
+    mockUserRepository.findUserById.mockResolvedValue(usuario);
+    const usuarioEncontrado = await service.findOneUser(usuario.idClient);
+    expect(usuarioEncontrado).toEqual(usuario);
+
+    mockUserRepository.delete.mockResolvedValue(usuario);
+    const resultado = await service.deleteUser(usuario.idClient);
+
+    expect(resultado).toEqual(usuario);
+    expect(mockUserRepository.delete).toHaveBeenCalledWith(usuario.idClient);
+  });
 });

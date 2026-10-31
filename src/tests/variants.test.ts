@@ -10,10 +10,13 @@ const mockVariantRepository = {
   delete: vi.fn(),
 };
 
-describe('Testes da camada serviço das categorias (sem erros)', () => {
+describe('Testes da camada serviço das variantes dos produtos (sem erros)', () => {
   let service: VariantsService;
 
   beforeEach(async () => {
+    vi.resetAllMocks();
+    vi.resetAllMocks();
+
     const module = await Test.createTestingModule({
       providers: [
         VariantsService,

@@ -10,10 +10,25 @@ const mockCategoryRepository = {
   delete: vi.fn(),
 };
 
+const category = {
+  id: 1,
+  categoryName: 'Vasos',
+  description: 'Vasos belos',
+};
+//atualizações
+const categoryAtualizado = {
+  id: 1,
+  categoryName: 'Vasos de flor',
+  description: 'Vasos belos com flor',
+};
+
 describe('Testes da camada serviço das categorias (sem erros)', () => {
   let service: CategoryService;
 
   beforeEach(async () => {
+    vi.resetAllMocks();
+    vi.resetAllMocks();
+
     const module = await Test.createTestingModule({
       providers: [
         CategoryService,
@@ -32,12 +47,6 @@ describe('Testes da camada serviço das categorias (sem erros)', () => {
   });
 
   test('Busca a categoria pelo id', async () => {
-    const category = {
-      id: 1,
-      categoryName: 'Vasos',
-      description: 'Vasos belos',
-    };
-
     mockCategoryRepository.findCategoryById.mockResolvedValue(category);
     const resultado = await service.findOneCategory(category.id);
     console.log('categoria pelo id: ', resultado);
@@ -45,12 +54,6 @@ describe('Testes da camada serviço das categorias (sem erros)', () => {
   });
 
   test('Cria uma nova categoria', async () => {
-    const category = {
-      id: 1,
-      categoryName: 'Canecas',
-      description: 'Canecas legais para todas e todes',
-    };
-
     mockCategoryRepository.create.mockResolvedValue(category);
     const resultado = await service.createCategory(category);
 
@@ -58,19 +61,6 @@ describe('Testes da camada serviço das categorias (sem erros)', () => {
   });
 
   test('Atualizar categoria', async () => {
-    const category = {
-      id: 1,
-      categoryName: 'Vasos',
-      description: 'Vasos belos',
-    };
-
-    //atualizações
-    const categoryAtualizado = {
-      id: 1,
-      categoryName: 'Vasos de flor',
-      description: 'Vasos belos com flor',
-    };
-
     mockCategoryRepository.update.mockResolvedValue(categoryAtualizado);
     const resultado = await service.updateCategory(
       category.id,
@@ -83,5 +73,17 @@ describe('Testes da camada serviço das categorias (sem erros)', () => {
         description: 'Vasos belos com flor',
       }),
     );
+  });
+
+  test('Deletar produto', async () => {
+    mockCategoryRepository.findCategoryById.mockResolvedValue(category);
+    const produtoEncontrado = await service.findOneCategory(category.id);
+    expect(produtoEncontrado).toEqual(category);
+
+    mockCategoryRepository.delete.mockResolvedValue(category);
+    const resultado = await service.deleteCategory(category.id);
+
+    expect(resultado).toEqual(category);
+    expect(mockCategoryRepository.delete).toHaveBeenCalledWith(category.id);
   });
 });
