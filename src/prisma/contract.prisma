@@ -54,7 +54,7 @@ model User {
   id       Int       @id @default(autoincrement())
   email    VarChar(150)    @unique
   name     VarChar(100)
-  adress   VarChar(255)
+  address   VarChar(255)
   password String
   userName String    @unique
   Orders   Orders[]

@@ -30,7 +30,7 @@ const usuarioAtualizado = {
   adress: 'barra funda, centro, 123',
 };
 
-describe('Testes do serviço do usuário', () => {
+describe('Testes da camadada de serviço do usuário', () => {
   let service: UserService;
 
   beforeEach(async () => {
@@ -101,5 +101,26 @@ describe('Testes do serviço do usuário', () => {
 
     expect(resultado).toEqual(usuario);
     expect(mockUserRepository.delete).toHaveBeenCalledWith(usuario.idClient);
+  });
+});
+
+describe('Testes unitários de usuário com valores inválidos', () => {
+  let service: UserService;
+
+  beforeEach(async () => {
+    vi.resetAllMocks();
+    vi.resetAllMocks();
+
+    const module = await Test.createTestingModule({
+      providers: [
+        UserService,
+        {
+          provide: UserRepository,
+          useValue: mockUserRepository,
+        },
+      ],
+    }).compile();
+
+    service = module.get<UserService>(UserService);
   });
 });

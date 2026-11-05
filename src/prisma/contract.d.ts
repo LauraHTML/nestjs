@@ -34,7 +34,7 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'d091be57a839d058217118f45136f0ad18e27b63b613367bcdeb7d66e6ba6757'>;
+  StorageHashBase<'77f330ef79954e286513ea35499f8186b7c3eb58e13e269cee20e25e4a6fe83d'>;
 export type ExecutionHash = ExecutionHashBase<string>;
 export type ProfileHash =
   ProfileHashBase<'3916f444a8a17ad749191acf9e08dad97d1a327b88c2f1d45d12f240296aa8b2'>;
@@ -280,7 +280,7 @@ export type FieldOutputTypes = {
       readonly id: CodecTypes['pg/int4@1']['output'];
       readonly email: Varchar<150>;
       readonly name: Varchar<100>;
-      readonly adress: Varchar<255>;
+      readonly address: Varchar<255>;
       readonly password: CodecTypes['pg/text@1']['output'];
       readonly userName: CodecTypes['pg/text@1']['output'];
     };
@@ -335,7 +335,7 @@ export type FieldInputTypes = {
       readonly id: CodecTypes['pg/int4@1']['input'];
       readonly email: CodecTypes['sql/varchar@1']['input'];
       readonly name: CodecTypes['sql/varchar@1']['input'];
-      readonly adress: CodecTypes['sql/varchar@1']['input'];
+      readonly address: CodecTypes['sql/varchar@1']['input'];
       readonly password: CodecTypes['pg/text@1']['input'];
       readonly userName: CodecTypes['pg/text@1']['input'];
     };
@@ -387,7 +387,7 @@ export type StorageColumnTypes = {
       readonly stock: CodecTypes['pg/int4@1']['output'];
     };
     readonly user: {
-      readonly adress: Varchar<255>;
+      readonly address: Varchar<255>;
       readonly email: Varchar<150>;
       readonly id: CodecTypes['pg/int4@1']['output'];
       readonly name: Varchar<100>;
@@ -442,7 +442,7 @@ export type StorageColumnInputTypes = {
       readonly stock: CodecTypes['pg/int4@1']['input'];
     };
     readonly user: {
-      readonly adress: CodecTypes['sql/varchar@1']['input'];
+      readonly address: CodecTypes['sql/varchar@1']['input'];
       readonly email: CodecTypes['sql/varchar@1']['input'];
       readonly id: CodecTypes['pg/int4@1']['input'];
       readonly name: CodecTypes['sql/varchar@1']['input'];
@@ -515,7 +515,7 @@ export namespace Models {
     id: CodecTypes['pg/int4@1']['output'];
     email: Varchar<150>;
     name: Varchar<100>;
-    adress: Varchar<255>;
+    address: Varchar<255>;
     password: CodecTypes['pg/text@1']['output'];
     userName: CodecTypes['pg/text@1']['output'];
     Orders: public_Orders[];
@@ -897,7 +897,7 @@ type ContractBase = Omit<
                   readonly nullable: false;
                   readonly typeParams: { readonly length: 100 };
                 };
-                readonly adress: {
+                readonly address: {
                   readonly nativeType: 'character varying';
                   readonly codecId: 'sql/varchar@1';
                   readonly nullable: false;
@@ -1364,7 +1364,7 @@ type ContractBase = Omit<
                   readonly typeParams: { readonly length: 100 };
                 };
               };
-              readonly adress: {
+              readonly address: {
                 readonly nullable: false;
                 readonly type: {
                   readonly kind: 'scalar';
@@ -1412,7 +1412,7 @@ type ContractBase = Omit<
                 readonly id: { readonly column: 'id' };
                 readonly email: { readonly column: 'email' };
                 readonly name: { readonly column: 'name' };
-                readonly adress: { readonly column: 'adress' };
+                readonly address: { readonly column: 'address' };
                 readonly password: { readonly column: 'password' };
                 readonly userName: { readonly column: 'userName' };
               };

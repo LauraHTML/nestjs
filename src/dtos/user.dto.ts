@@ -41,6 +41,15 @@ export class ResponseUserDto {
   adress!: string;
 }
 
+export class LoginDto {
+  @IsInt()
+  id!: number;
+  @IsString()
+  password!: string;
+  @IsEmail()
+  email!: string;
+}
+
 export class UpdateUserDto {
   @IsOptional()
   @IsInt()
