@@ -4,7 +4,11 @@ import {
   BadRequestException,
   NotFoundException,
 } from '@nestjs/common';
-import { CreateCategoryDto, UpdateCategoryDto } from '../dtos/category.dto';
+import {
+  CreateCategoryDto,
+  UpdateCategoryDto,
+  ResponseCategoryDto,
+} from '../dtos/category.dto';
 
 @Injectable()
 export class CategoryService {
@@ -12,12 +16,14 @@ export class CategoryService {
 
   async createCategory(dto: CreateCategoryDto) {
     if (dto.categoryName === '') {
-      throw new BadRequestException('Por favor, coloque o nome da categoria');
+      throw new BadRequestException(
+        'Por favor, coloque um nome para a categoria',
+      );
     }
 
     if (dto.description.split(/\s+/).length < 4) {
       throw new BadRequestException(
-        'Por favor, escreva uma descrição mais completa para a categoria',
+        'Por favor, coloque a descrição da categoria ou escreva com mais detalhes',
       );
     }
 
@@ -25,6 +31,13 @@ export class CategoryService {
       categoryName: dto.categoryName,
       description: dto.description,
     });
+  }
+
+  async findAllCategories(): Promise<ResponseCategoryDto[]> {
+    const categories = await this.categoryRepository.findAllCategories();
+    if (!categories)
+      throw new NotFoundException('Nenhuma categoria foi encontrada');
+    return categories;
   }
 
   async findOneCategory(id: number) {
@@ -46,7 +59,7 @@ export class CategoryService {
     }
     if (dto.description != null && dto.description.split(/\s+/).length < 4) {
       throw new BadRequestException(
-        'Por favor, escreva uma descrição mais completa para a categoria',
+        'Por favor, coloque a descrição da categoria ou escreva com mais detalhes',
       );
     }
 

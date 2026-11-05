@@ -22,7 +22,7 @@ export class ResponseVariantDto {
   color!: string;
   idProduct!: number;
   stock!: number;
-  variantCode!: string;
+  variantCode!: number;
 }
 
 export class UpdateVariantDto {
