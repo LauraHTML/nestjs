@@ -8,6 +8,10 @@ export class CategoryRepository {
   //instanciando o banco de dados, para usar os métodos, as queries do prisma
   constructor(private prisma: PrismaService) {}
 
+  async findAllCategories(): Promise<Categories[]> {
+    return this.prisma.categories.findMany();
+  }
+
   async findCategoryById(id: number): Promise<Categories | null> {
     return this.prisma.categories.findUnique({ where: { id } });
   }

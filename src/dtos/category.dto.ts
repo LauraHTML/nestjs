@@ -8,7 +8,7 @@ export class CreateCategoryDto {
   description!: string;
 }
 
-export class ReponseCategoryDto {
+export class ResponseCategoryDto {
   categoryName!: string;
   description!: string;
 }
