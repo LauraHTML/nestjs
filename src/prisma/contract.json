@@ -575,7 +575,7 @@
           },
           "User": {
             "fields": {
-              "adress": {
+              "address": {
                 "nullable": false,
                 "type": {
                   "codecId": "sql/varchar@1",
@@ -661,8 +661,8 @@
             },
             "storage": {
               "fields": {
-                "adress": {
-                  "column": "adress"
+                "address": {
+                  "column": "address"
                 },
                 "email": {
                   "column": "email"
@@ -1214,7 +1214,7 @@
             },
             "user": {
               "columns": {
-                "adress": {
+                "address": {
                   "codecId": "sql/varchar@1",
                   "nativeType": "character varying",
                   "nullable": false,
@@ -1381,7 +1381,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "d091be57a839d058217118f45136f0ad18e27b63b613367bcdeb7d66e6ba6757"
+    "storageHash": "77f330ef79954e286513ea35499f8186b7c3eb58e13e269cee20e25e4a6fe83d"
   },
   "capabilities": {
     "postgres": {

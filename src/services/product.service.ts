@@ -54,7 +54,6 @@ export class ProductService {
 
   async findProducts(): Promise<ResponseProductDto[]> {
     const products = await this.productRepository.findAllProducts();
-    console.log(products);
     if (!products) throw new NotFoundException('Nenhum produto foi encontrado');
     return products.map((product) => this.toResponseProduct(product));
   }

@@ -10,6 +10,7 @@ import {
   CreateUserDto,
   ResponseUserDto,
   UpdateUserDto,
+  LoginDto,
 } from '../dtos/user.dto';
 import { hash } from 'bcrypt-ts';
 
@@ -32,11 +33,21 @@ export class UserService {
     return hashedPassword;
   }
 
+  async emailDb(email: string): Promise<boolean> {
+    const savedEmails = await this.userRepository.findEmail();
+    return savedEmails.includes(email);
+  }
+
   async createUser(dto: CreateUserDto): Promise<ResponseUserDto> {
+    const emailExiste = await this.emailDb(dto.email);
     if (UserService.sanitizeText(dto.password).length < 6) {
       throw new BadRequestException(
         'Senha muito curta: Para a sua segurança, digite uma senha mais longa',
       );
+    }
+
+    if (emailExiste) {
+      throw new BadRequestException('Esse email já foi cadastrado no site');
     }
     if (!UserService.testEmail(dto.email)) {
       throw new BadRequestException(
@@ -78,6 +89,15 @@ export class UserService {
     const user = await this.userRepository.findUserById(id);
     if (!user)
       throw new NotFoundException(`Usuário com id:${id} não foi encontrado`);
+    return user;
+  }
+
+  async findByEmail(email: string): Promise<LoginDto> {
+    const user = await this.userRepository.findUserByEmail(email);
+
+    if (!user) {
+      throw new NotFoundException('Esse email não está cadastrado');
+    }
     return user;
   }
 
@@ -127,8 +147,8 @@ export class UserService {
   }
 
   async deleteUser(id: number) {
-    await this.findOneUser(id);
-
+    const user = await this.findOneUser(id);
+    if (!user) throw new NotFoundException('Usuário não encontrado');
     return this.userRepository.delete(id);
   }
 }

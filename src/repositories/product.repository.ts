@@ -9,7 +9,7 @@ export class ProductRepository {
   async findProductById(id: number): Promise<Product | null> {
     return this.prisma.product.findUnique({
       where: { id },
-      include: { Categories: true, variant: true },
+      include: { Categories: true, Variants: true },
     });
   }
 
@@ -17,7 +17,7 @@ export class ProductRepository {
     return this.prisma.product.findMany({
       include: {
         Categories: true,
-        variant: true,
+        Variants: true,
       },
     });
   }

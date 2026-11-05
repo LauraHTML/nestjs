@@ -4,7 +4,11 @@ import {
   BadRequestException,
   NotFoundException,
 } from '@nestjs/common';
-import { CreateVariantDto, UpdateVariantDto } from '../dtos/variants.dto';
+import {
+  CreateVariantDto,
+  UpdateVariantDto,
+  ResponseVariantDto,
+} from '../dtos/variants.dto';
 
 @Injectable()
 export class VariantsService {
@@ -12,7 +16,7 @@ export class VariantsService {
 
   async createVariant(dto: CreateVariantDto) {
     if (dto.name === '') {
-      throw new BadRequestException('Por favor, coloque o nome do produto');
+      throw new BadRequestException('Por favor, coloque o nome da variante');
     }
     if (!dto.idProduct) {
       throw new BadRequestException(
@@ -41,15 +45,21 @@ export class VariantsService {
     return variant;
   }
 
+  async findAllVariants(): Promise<ResponseVariantDto[]> {
+    const variants = await this.variantsRepository.findAllVariants();
+    if (!variants) throw new NotFoundException('Nenhuma variante encontrada');
+    return variants;
+  }
+
   async updateVariant(id: number, dto: UpdateVariantDto) {
     await this.findOneVariant(id);
 
     if (dto.name != null && dto.name === '') {
-      throw new BadRequestException('Por favor, coloque o nome do produto');
+      throw new BadRequestException('Por favor, coloque o nome da variante');
     }
     if (dto.idProduct != null && !dto.idProduct) {
       throw new BadRequestException(
-        'Por favor, coloque um preço válido para o produto',
+        'Por favor, selecione um produto válido para a variante',
       );
     }
     if (dto.stock != null && dto.stock < 0) {
@@ -60,8 +70,10 @@ export class VariantsService {
 
     return this.variantsRepository.update(id, {
       ...(dto.name != null && { name: dto.name }),
+      ...(dto.color != null && { color: dto.color }),
       ...(dto.idProduct != null && { idProduct: dto.idProduct }),
       ...(dto.stock != null && { stock: dto.stock }),
+      ...(dto.variantCode != null && { variantCode: dto.variantCode }),
     });
   }
 
