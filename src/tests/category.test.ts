@@ -93,7 +93,7 @@ describe('Testes da camada serviço das categorias (sem erros)', () => {
   });
 });
 
-describe('Testes com valores inválidos', () => {
+describe('Testes da camada de serviços das categorias (com erros)', () => {
   let service: CategoryService;
 
   beforeEach(async () => {
