@@ -4,31 +4,31 @@
   "target": "postgres",
   "profileHash": "3916f444a8a17ad749191acf9e08dad97d1a327b88c2f1d45d12f240296aa8b2",
   "roots": {
-    "categories": {
+    "Categories": {
       "model": "Categories",
       "namespace": "public"
     },
-    "orderItens": {
+    "OrderItens": {
       "model": "OrderItens",
       "namespace": "public"
     },
-    "orders": {
+    "Orders": {
       "model": "Orders",
       "namespace": "public"
     },
-    "payment": {
+    "Payment": {
       "model": "Payment",
       "namespace": "public"
     },
-    "product": {
+    "Product": {
       "model": "Product",
       "namespace": "public"
     },
-    "user": {
+    "User": {
       "model": "User",
       "namespace": "public"
     },
-    "variants": {
+    "Variants": {
       "model": "Variants",
       "namespace": "public"
     }
@@ -137,7 +137,7 @@
                 }
               },
               "namespaceId": "public",
-              "table": "categories"
+              "table": "Categories"
             }
           },
           "OrderItens": {
@@ -231,7 +231,7 @@
                 }
               },
               "namespaceId": "public",
-              "table": "orderItens"
+              "table": "OrderItens"
             }
           },
           "Orders": {
@@ -335,7 +335,7 @@
                 }
               },
               "namespaceId": "public",
-              "table": "orders"
+              "table": "Orders"
             }
           },
           "Payment": {
@@ -461,7 +461,7 @@
                 }
               },
               "namespaceId": "public",
-              "table": "payment"
+              "table": "Payment"
             }
           },
           "Product": {
@@ -570,7 +570,7 @@
                 }
               },
               "namespaceId": "public",
-              "table": "product"
+              "table": "Product"
             }
           },
           "User": {
@@ -681,7 +681,7 @@
                 }
               },
               "namespaceId": "public",
-              "table": "user"
+              "table": "User"
             }
           },
           "Variants": {
@@ -790,7 +790,7 @@
                 }
               },
               "namespaceId": "public",
-              "table": "variants"
+              "table": "Variants"
             }
           }
         }
@@ -802,11 +802,11 @@
       "public": {
         "entries": {
           "table": {
-            "categories": {
+            "Categories": {
               "columns": {
                 "categoryName": {
                   "codecId": "sql/varchar@1",
-                  "nativeType": "character varying",
+                  "dataType": "pg/varchar",
                   "nullable": false,
                   "typeParams": {
                     "length": 255
@@ -814,7 +814,7 @@
                 },
                 "description": {
                   "codecId": "sql/varchar@1",
-                  "nativeType": "character varying",
+                  "dataType": "pg/varchar",
                   "nullable": false,
                   "typeParams": {
                     "length": 255
@@ -822,11 +822,11 @@
                 },
                 "id": {
                   "codecId": "pg/int4@1",
+                  "dataType": "pg/int4",
                   "default": {
                     "expression": "autoincrement()",
                     "kind": "function"
                   },
-                  "nativeType": "int4",
                   "nullable": false
                 }
               },
@@ -839,69 +839,75 @@
               },
               "uniques": []
             },
-            "orderItens": {
+            "OrderItens": {
               "columns": {
                 "id": {
                   "codecId": "pg/int4@1",
+                  "dataType": "pg/int4",
                   "default": {
                     "expression": "autoincrement()",
                     "kind": "function"
                   },
-                  "nativeType": "int4",
                   "nullable": false
                 },
                 "idOrder": {
                   "codecId": "pg/int4@1",
-                  "nativeType": "int4",
+                  "dataType": "pg/int4",
                   "nullable": false
                 },
                 "idVariant": {
                   "codecId": "pg/int4@1",
-                  "nativeType": "int4",
+                  "dataType": "pg/int4",
                   "nullable": false
                 },
                 "quantity": {
                   "codecId": "pg/int4@1",
-                  "nativeType": "int4",
+                  "dataType": "pg/int4",
                   "nullable": false
                 },
                 "unitPrice": {
                   "codecId": "pg/int4@1",
-                  "nativeType": "int4",
+                  "dataType": "pg/int4",
                   "nullable": false
                 }
               },
               "foreignKeys": [
                 {
+                  "index": {
+                    "name": "OrderItens_idOrder_idx_13561201"
+                  },
                   "source": {
                     "columns": [
                       "idOrder"
                     ],
                     "namespaceId": "public",
-                    "tableName": "orderItens"
+                    "tableName": "OrderItens"
                   },
                   "target": {
                     "columns": [
                       "id"
                     ],
                     "namespaceId": "public",
-                    "tableName": "orders"
+                    "tableName": "Orders"
                   }
                 },
                 {
+                  "index": {
+                    "name": "OrderItens_idVariant_idx_ba13bdf6"
+                  },
                   "source": {
                     "columns": [
                       "idVariant"
                     ],
                     "namespaceId": "public",
-                    "tableName": "orderItens"
+                    "tableName": "OrderItens"
                   },
                   "target": {
                     "columns": [
                       "id"
                     ],
                     "namespaceId": "public",
-                    "tableName": "variants"
+                    "tableName": "Variants"
                   }
                 }
               ],
@@ -910,16 +916,16 @@
                   "columns": [
                     "idOrder"
                   ],
-                  "name": "orderItens_idOrder_idx_13561201",
-                  "prefix": "orderItens_idOrder_idx",
+                  "name": "OrderItens_idOrder_idx_13561201",
+                  "prefix": "OrderItens_idOrder_idx",
                   "unique": false
                 },
                 {
                   "columns": [
                     "idVariant"
                   ],
-                  "name": "orderItens_idVariant_idx_ba13bdf6",
-                  "prefix": "orderItens_idVariant_idx",
+                  "name": "OrderItens_idVariant_idx_ba13bdf6",
+                  "prefix": "OrderItens_idVariant_idx",
                   "unique": false
                 }
               ],
@@ -930,41 +936,41 @@
               },
               "uniques": []
             },
-            "orders": {
+            "Orders": {
               "checks": [
                 {
                   "expression": "\"orderStatus\" IN ('concluído', 'em processo', 'recusado')",
-                  "name": "orders_orderStatus_check_87e3506c",
-                  "prefix": "orders_orderStatus_check"
+                  "name": "Orders_orderStatus_check_87e3506c",
+                  "prefix": "Orders_orderStatus_check"
                 }
               ],
               "columns": {
                 "id": {
                   "codecId": "pg/int4@1",
+                  "dataType": "pg/int4",
                   "default": {
                     "expression": "autoincrement()",
                     "kind": "function"
                   },
-                  "nativeType": "int4",
                   "nullable": false
                 },
                 "idUser": {
                   "codecId": "pg/int4@1",
-                  "nativeType": "int4",
+                  "dataType": "pg/int4",
                   "nullable": false
                 },
                 "orderDate": {
                   "codecId": "pg/timestamptz-string@1",
-                  "nativeType": "timestamptz",
+                  "dataType": "pg/timestamptz",
                   "nullable": false
                 },
                 "orderStatus": {
                   "codecId": "pg/text@1",
+                  "dataType": "pg/text",
                   "default": {
                     "kind": "literal",
                     "value": "em processo"
                   },
-                  "nativeType": "text",
                   "nullable": false,
                   "valueSet": {
                     "entityKind": "valueSet",
@@ -976,19 +982,22 @@
               },
               "foreignKeys": [
                 {
+                  "index": {
+                    "name": "Orders_idUser_idx_6acaa521"
+                  },
                   "source": {
                     "columns": [
                       "idUser"
                     ],
                     "namespaceId": "public",
-                    "tableName": "orders"
+                    "tableName": "Orders"
                   },
                   "target": {
                     "columns": [
                       "id"
                     ],
                     "namespaceId": "public",
-                    "tableName": "user"
+                    "tableName": "User"
                   }
                 }
               ],
@@ -997,8 +1006,8 @@
                   "columns": [
                     "idUser"
                   ],
-                  "name": "orders_idUser_idx_6acaa521",
-                  "prefix": "orders_idUser_idx",
+                  "name": "Orders_idUser_idx_6acaa521",
+                  "prefix": "Orders_idUser_idx",
                   "unique": false
                 }
               ],
@@ -1009,52 +1018,52 @@
               },
               "uniques": []
             },
-            "payment": {
+            "Payment": {
               "checks": [
                 {
                   "expression": "\"paymentMetod\" IN ('pix', 'cartão', 'boleto', 'paypal')",
-                  "name": "payment_paymentMetod_check_a25b1114",
-                  "prefix": "payment_paymentMetod_check"
+                  "name": "Payment_paymentMetod_check_a25b1114",
+                  "prefix": "Payment_paymentMetod_check"
                 },
                 {
                   "expression": "\"paymentStatus\" IN ('concluído', 'em processo', 'recusado')",
-                  "name": "payment_paymentStatus_check_d59e4170",
-                  "prefix": "payment_paymentStatus_check"
+                  "name": "Payment_paymentStatus_check_d59e4170",
+                  "prefix": "Payment_paymentStatus_check"
                 }
               ],
               "columns": {
                 "id": {
                   "codecId": "pg/int4@1",
+                  "dataType": "pg/int4",
                   "default": {
                     "expression": "autoincrement()",
                     "kind": "function"
                   },
-                  "nativeType": "int4",
                   "nullable": false
                 },
                 "idOrder": {
                   "codecId": "pg/int4@1",
-                  "nativeType": "int4",
+                  "dataType": "pg/int4",
                   "nullable": false
                 },
                 "idUser": {
                   "codecId": "pg/int4@1",
-                  "nativeType": "int4",
+                  "dataType": "pg/int4",
                   "nullable": false
                 },
                 "id_transacao_gateway": {
                   "codecId": "pg/text@1",
-                  "nativeType": "text",
+                  "dataType": "pg/text",
                   "nullable": true
                 },
                 "paymentDate": {
                   "codecId": "pg/timestamptz-string@1",
-                  "nativeType": "timestamptz",
+                  "dataType": "pg/timestamptz",
                   "nullable": false
                 },
                 "paymentMetod": {
                   "codecId": "pg/text@1",
-                  "nativeType": "text",
+                  "dataType": "pg/text",
                   "nullable": false,
                   "valueSet": {
                     "entityKind": "valueSet",
@@ -1065,7 +1074,7 @@
                 },
                 "paymentStatus": {
                   "codecId": "pg/text@1",
-                  "nativeType": "text",
+                  "dataType": "pg/text",
                   "nullable": false,
                   "valueSet": {
                     "entityKind": "valueSet",
@@ -1077,35 +1086,41 @@
               },
               "foreignKeys": [
                 {
+                  "index": {
+                    "name": "Payment_idOrder_idx_13561201"
+                  },
                   "source": {
                     "columns": [
                       "idOrder"
                     ],
                     "namespaceId": "public",
-                    "tableName": "payment"
+                    "tableName": "Payment"
                   },
                   "target": {
                     "columns": [
                       "id"
                     ],
                     "namespaceId": "public",
-                    "tableName": "orders"
+                    "tableName": "Orders"
                   }
                 },
                 {
+                  "index": {
+                    "name": "Payment_idUser_idx_6acaa521"
+                  },
                   "source": {
                     "columns": [
                       "idUser"
                     ],
                     "namespaceId": "public",
-                    "tableName": "payment"
+                    "tableName": "Payment"
                   },
                   "target": {
                     "columns": [
                       "id"
                     ],
                     "namespaceId": "public",
-                    "tableName": "user"
+                    "tableName": "User"
                   }
                 }
               ],
@@ -1114,16 +1129,16 @@
                   "columns": [
                     "idOrder"
                   ],
-                  "name": "payment_idOrder_idx_13561201",
-                  "prefix": "payment_idOrder_idx",
+                  "name": "Payment_idOrder_idx_13561201",
+                  "prefix": "Payment_idOrder_idx",
                   "unique": false
                 },
                 {
                   "columns": [
                     "idUser"
                   ],
-                  "name": "payment_idUser_idx_6acaa521",
-                  "prefix": "payment_idUser_idx",
+                  "name": "Payment_idUser_idx_6acaa521",
+                  "prefix": "Payment_idUser_idx",
                   "unique": false
                 }
               ],
@@ -1134,11 +1149,11 @@
               },
               "uniques": []
             },
-            "product": {
+            "Product": {
               "columns": {
                 "description": {
                   "codecId": "sql/varchar@1",
-                  "nativeType": "character varying",
+                  "dataType": "pg/varchar",
                   "nullable": false,
                   "typeParams": {
                     "length": 255
@@ -1146,21 +1161,21 @@
                 },
                 "id": {
                   "codecId": "pg/int4@1",
+                  "dataType": "pg/int4",
                   "default": {
                     "expression": "autoincrement()",
                     "kind": "function"
                   },
-                  "nativeType": "int4",
                   "nullable": false
                 },
                 "idCategory": {
                   "codecId": "pg/int4@1",
-                  "nativeType": "int4",
+                  "dataType": "pg/int4",
                   "nullable": false
                 },
                 "name": {
                   "codecId": "sql/varchar@1",
-                  "nativeType": "character varying",
+                  "dataType": "pg/varchar",
                   "nullable": false,
                   "typeParams": {
                     "length": 255
@@ -1168,30 +1183,33 @@
                 },
                 "price": {
                   "codecId": "pg/int4@1",
-                  "nativeType": "int4",
+                  "dataType": "pg/int4",
                   "nullable": false
                 },
                 "stock": {
                   "codecId": "pg/int4@1",
-                  "nativeType": "int4",
+                  "dataType": "pg/int4",
                   "nullable": false
                 }
               },
               "foreignKeys": [
                 {
+                  "index": {
+                    "name": "Product_idCategory_idx_f7a5d9d3"
+                  },
                   "source": {
                     "columns": [
                       "idCategory"
                     ],
                     "namespaceId": "public",
-                    "tableName": "product"
+                    "tableName": "Product"
                   },
                   "target": {
                     "columns": [
                       "id"
                     ],
                     "namespaceId": "public",
-                    "tableName": "categories"
+                    "tableName": "Categories"
                   }
                 }
               ],
@@ -1200,8 +1218,8 @@
                   "columns": [
                     "idCategory"
                   ],
-                  "name": "product_idCategory_idx_f7a5d9d3",
-                  "prefix": "product_idCategory_idx",
+                  "name": "Product_idCategory_idx_f7a5d9d3",
+                  "prefix": "Product_idCategory_idx",
                   "unique": false
                 }
               ],
@@ -1212,11 +1230,11 @@
               },
               "uniques": []
             },
-            "user": {
+            "User": {
               "columns": {
                 "address": {
                   "codecId": "sql/varchar@1",
-                  "nativeType": "character varying",
+                  "dataType": "pg/varchar",
                   "nullable": false,
                   "typeParams": {
                     "length": 255
@@ -1224,7 +1242,7 @@
                 },
                 "email": {
                   "codecId": "sql/varchar@1",
-                  "nativeType": "character varying",
+                  "dataType": "pg/varchar",
                   "nullable": false,
                   "typeParams": {
                     "length": 150
@@ -1232,16 +1250,16 @@
                 },
                 "id": {
                   "codecId": "pg/int4@1",
+                  "dataType": "pg/int4",
                   "default": {
                     "expression": "autoincrement()",
                     "kind": "function"
                   },
-                  "nativeType": "int4",
                   "nullable": false
                 },
                 "name": {
                   "codecId": "sql/varchar@1",
-                  "nativeType": "character varying",
+                  "dataType": "pg/varchar",
                   "nullable": false,
                   "typeParams": {
                     "length": 100
@@ -1249,12 +1267,12 @@
                 },
                 "password": {
                   "codecId": "pg/text@1",
-                  "nativeType": "text",
+                  "dataType": "pg/text",
                   "nullable": false
                 },
                 "userName": {
                   "codecId": "pg/text@1",
-                  "nativeType": "text",
+                  "dataType": "pg/text",
                   "nullable": false
                 }
               },
@@ -1278,11 +1296,11 @@
                 }
               ]
             },
-            "variants": {
+            "Variants": {
               "columns": {
                 "color": {
                   "codecId": "sql/varchar@1",
-                  "nativeType": "character varying",
+                  "dataType": "pg/varchar",
                   "nullable": false,
                   "typeParams": {
                     "length": 255
@@ -1290,21 +1308,21 @@
                 },
                 "id": {
                   "codecId": "pg/int4@1",
+                  "dataType": "pg/int4",
                   "default": {
                     "expression": "autoincrement()",
                     "kind": "function"
                   },
-                  "nativeType": "int4",
                   "nullable": false
                 },
                 "idProduct": {
                   "codecId": "pg/int4@1",
-                  "nativeType": "int4",
+                  "dataType": "pg/int4",
                   "nullable": false
                 },
                 "name": {
                   "codecId": "sql/varchar@1",
-                  "nativeType": "character varying",
+                  "dataType": "pg/varchar",
                   "nullable": false,
                   "typeParams": {
                     "length": 255
@@ -1312,30 +1330,33 @@
                 },
                 "stock": {
                   "codecId": "pg/int4@1",
-                  "nativeType": "int4",
+                  "dataType": "pg/int4",
                   "nullable": false
                 },
                 "variantCode": {
                   "codecId": "pg/int4@1",
-                  "nativeType": "int4",
+                  "dataType": "pg/int4",
                   "nullable": false
                 }
               },
               "foreignKeys": [
                 {
+                  "index": {
+                    "name": "Variants_idProduct_idx_101452b5"
+                  },
                   "source": {
                     "columns": [
                       "idProduct"
                     ],
                     "namespaceId": "public",
-                    "tableName": "variants"
+                    "tableName": "Variants"
                   },
                   "target": {
                     "columns": [
                       "id"
                     ],
                     "namespaceId": "public",
-                    "tableName": "product"
+                    "tableName": "Product"
                   }
                 }
               ],
@@ -1344,8 +1365,8 @@
                   "columns": [
                     "idProduct"
                   ],
-                  "name": "variants_idProduct_idx_101452b5",
-                  "prefix": "variants_idProduct_idx",
+                  "name": "Variants_idProduct_idx_101452b5",
+                  "prefix": "Variants_idProduct_idx",
                   "unique": false
                 }
               ],
@@ -1381,11 +1402,13 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "77f330ef79954e286513ea35499f8186b7c3eb58e13e269cee20e25e4a6fe83d"
+    "storageHash": "4a859086aeafec0e82f966ccb181fc3f54b8f9ef55c17aabe0384dce975b7187"
   },
   "capabilities": {
     "postgres": {
       "distinctOn": true,
+      "forKeyShare": true,
+      "forNoKeyUpdate": true,
       "jsonAgg": true,
       "lateral": true,
       "limit": true,
@@ -1396,7 +1419,15 @@
       "checkConstraint": true,
       "defaultInInsert": true,
       "enums": true,
+      "forShare": true,
+      "forUpdate": true,
+      "insertOnConflictSkip": true,
+      "insertOnConflictTarget": true,
+      "insertOnConflictWithoutTarget": true,
       "lateral": true,
+      "lockNowait": true,
+      "lockOf": true,
+      "lockSkipLocked": true,
       "returning": true,
       "scalarList": true
     }

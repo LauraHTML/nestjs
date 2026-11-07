@@ -13,7 +13,7 @@ import {
 
 @Injectable()
 export class ProductService {
-  constructor(private productRepository: ProductRepository) {}
+  constructor(private readonly productRepository: ProductRepository) {}
 
   async createProduct(dto: CreateProductDto): Promise<ResponseProductDto> {
     if (dto.name === '') {

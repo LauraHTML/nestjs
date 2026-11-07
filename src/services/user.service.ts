@@ -12,11 +12,11 @@ import {
   UpdateUserDto,
   LoginDto,
 } from '../dtos/user.dto';
-import { hash } from 'bcrypt-ts';
+import { hash, compare } from 'bcrypt-ts';
 
 @Injectable()
 export class UserService {
-  constructor(private userRepository: UserRepository) {}
+  constructor(private readonly userRepository: UserRepository) {}
 
   static sanitizeText(text: string) {
     const sanitize = typeof text === 'string' ? text.trim().toLowerCase() : '';
@@ -99,6 +99,13 @@ export class UserService {
       throw new NotFoundException('Esse email não está cadastrado');
     }
     return user;
+  }
+
+  async validateCredentials(email: string, password: string) {
+    const user = await this.findByEmail(email);
+    if (!user) return null;
+    const ok = await compare(password, user.password);
+    return ok ? user : null;
   }
 
   async updateUser(id: number, dto: UpdateUserDto) {
