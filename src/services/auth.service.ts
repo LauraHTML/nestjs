@@ -1,11 +1,6 @@
-import {
-  Injectable,
-  BadRequestException,
-  NotFoundException,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserService } from './user.service';
-import { CreateUserDto, ResponseUserDto, LoginDto } from '../dtos/user.dto';
+import { LoginDto } from '../dtos/user.dto';
 import { compare } from 'bcrypt-ts';
 import { JwtService } from '@nestjs/jwt';
 
@@ -16,7 +11,16 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async Login(dto: LoginDto) {
+  async validateUser(email: string, password: string) {
+    const user = await this.userService.validateCredentials(email, password);
+    if (!user) throw new UnauthorizedException();
+    // oconst vale para todas as variáveis declaradas pela desestruturação
+    //pega a propriedade senha do usuário e declara uma variável _
+    const { password: _, ...result } = user;
+    return result;
+  }
+
+  async login(dto: LoginDto) {
     const user = await this.userService.findByEmail(dto.email);
 
     if (!user) {

@@ -12,7 +12,7 @@ import {
 
 @Injectable()
 export class VariantsService {
-  constructor(private variantsRepository: VariantsRepository) {}
+  constructor(private readonly variantsRepository: VariantsRepository) {}
 
   async createVariant(dto: CreateVariantDto) {
     if (dto.name === '') {

@@ -12,7 +12,7 @@ import {
 
 @Injectable()
 export class CategoryService {
-  constructor(private categoryRepository: CategoryRepository) {}
+  constructor(private readonly categoryRepository: CategoryRepository) {}
 
   async createCategory(dto: CreateCategoryDto) {
     if (dto.categoryName === '') {
