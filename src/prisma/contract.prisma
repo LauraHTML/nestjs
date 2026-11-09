@@ -86,3 +86,17 @@ enum Status {
   PENDING = "em processo"
   REFUSED = "recusado"
 }
+
+model RefreshToken {
+  id           String    @onCreate(uuid())
+  tokenHash    String    @unique
+  familyId     String    // agrupa a cadeia de tokens de uma mesma sessão/login
+  userId       Int
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt    DateTime
+  revokedAt    DateTime?
+  createdAt    DateTime  @default(now())
+
+  @@index([userId])
+  @@index([familyId])
+}
