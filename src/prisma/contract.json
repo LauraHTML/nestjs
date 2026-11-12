@@ -5,21 +5,26 @@
   "profileHash": "3916f444a8a17ad749191acf9e08dad97d1a327b88c2f1d45d12f240296aa8b2",
   "roots": {
     "Categories": {
+    "Categories": {
       "model": "Categories",
       "namespace": "public"
     },
+    "OrderItens": {
     "OrderItens": {
       "model": "OrderItens",
       "namespace": "public"
     },
     "Orders": {
+    "Orders": {
       "model": "Orders",
       "namespace": "public"
     },
     "Payment": {
+    "Payment": {
       "model": "Payment",
       "namespace": "public"
     },
+    "Product": {
     "Product": {
       "model": "Product",
       "namespace": "public"
@@ -32,6 +37,7 @@
       "model": "User",
       "namespace": "public"
     },
+    "Variants": {
     "Variants": {
       "model": "Variants",
       "namespace": "public"
@@ -142,6 +148,7 @@
               },
               "namespaceId": "public",
               "table": "Categories"
+              "table": "Categories"
             }
           },
           "OrderItens": {
@@ -235,6 +242,7 @@
                 }
               },
               "namespaceId": "public",
+              "table": "OrderItens"
               "table": "OrderItens"
             }
           },
@@ -339,6 +347,7 @@
                 }
               },
               "namespaceId": "public",
+              "table": "Orders"
               "table": "Orders"
             }
           },
@@ -465,6 +474,7 @@
                 }
               },
               "namespaceId": "public",
+              "table": "Payment"
               "table": "Payment"
             }
           },
@@ -793,6 +803,7 @@
               },
               "namespaceId": "public",
               "table": "User"
+              "table": "User"
             }
           },
           "Variants": {
@@ -902,6 +913,7 @@
               },
               "namespaceId": "public",
               "table": "Variants"
+              "table": "Variants"
             }
           }
         }
@@ -914,9 +926,11 @@
         "entries": {
           "table": {
             "Categories": {
+            "Categories": {
               "columns": {
                 "description": {
                   "codecId": "sql/varchar@1",
+                  "dataType": "pg/varchar",
                   "dataType": "pg/varchar",
                   "nullable": false,
                   "typeParams": {
@@ -925,6 +939,7 @@
                 },
                 "id": {
                   "codecId": "pg/int4@1",
+                  "dataType": "pg/int4",
                   "dataType": "pg/int4",
                   "default": {
                     "expression": "autoincrement()",
@@ -951,9 +966,11 @@
               "uniques": []
             },
             "OrderItens": {
+            "OrderItens": {
               "columns": {
                 "id": {
                   "codecId": "pg/int4@1",
+                  "dataType": "pg/int4",
                   "dataType": "pg/int4",
                   "default": {
                     "expression": "autoincrement()",
@@ -964,20 +981,24 @@
                 "idOrder": {
                   "codecId": "pg/int4@1",
                   "dataType": "pg/int4",
+                  "dataType": "pg/int4",
                   "nullable": false
                 },
                 "idVariant": {
                   "codecId": "pg/int4@1",
+                  "dataType": "pg/int4",
                   "dataType": "pg/int4",
                   "nullable": false
                 },
                 "quantity": {
                   "codecId": "pg/int4@1",
                   "dataType": "pg/int4",
+                  "dataType": "pg/int4",
                   "nullable": false
                 },
                 "unitPrice": {
                   "codecId": "pg/int4@1",
+                  "dataType": "pg/int4",
                   "dataType": "pg/int4",
                   "nullable": false
                 }
@@ -987,11 +1008,15 @@
                   "index": {
                     "name": "OrderItens_idOrder_idx_13561201"
                   },
+                  "index": {
+                    "name": "OrderItens_idOrder_idx_13561201"
+                  },
                   "source": {
                     "columns": [
                       "idOrder"
                     ],
                     "namespaceId": "public",
+                    "tableName": "OrderItens"
                     "tableName": "OrderItens"
                   },
                   "target": {
@@ -1000,9 +1025,13 @@
                     ],
                     "namespaceId": "public",
                     "tableName": "Orders"
+                    "tableName": "Orders"
                   }
                 },
                 {
+                  "index": {
+                    "name": "OrderItens_idVariant_idx_ba13bdf6"
+                  },
                   "index": {
                     "name": "OrderItens_idVariant_idx_ba13bdf6"
                   },
@@ -1012,12 +1041,14 @@
                     ],
                     "namespaceId": "public",
                     "tableName": "OrderItens"
+                    "tableName": "OrderItens"
                   },
                   "target": {
                     "columns": [
                       "id"
                     ],
                     "namespaceId": "public",
+                    "tableName": "Variants"
                     "tableName": "Variants"
                   }
                 }
@@ -1029,12 +1060,16 @@
                   ],
                   "name": "OrderItens_idOrder_idx_13561201",
                   "prefix": "OrderItens_idOrder_idx",
+                  "name": "OrderItens_idOrder_idx_13561201",
+                  "prefix": "OrderItens_idOrder_idx",
                   "unique": false
                 },
                 {
                   "columns": [
                     "idVariant"
                   ],
+                  "name": "OrderItens_idVariant_idx_ba13bdf6",
+                  "prefix": "OrderItens_idVariant_idx",
                   "name": "OrderItens_idVariant_idx_ba13bdf6",
                   "prefix": "OrderItens_idVariant_idx",
                   "unique": false
@@ -1048,9 +1083,12 @@
               "uniques": []
             },
             "Orders": {
+            "Orders": {
               "checks": [
                 {
                   "expression": "\"orderStatus\" IN ('concluído', 'em processo', 'recusado')",
+                  "name": "Orders_orderStatus_check_87e3506c",
+                  "prefix": "Orders_orderStatus_check"
                   "name": "Orders_orderStatus_check_87e3506c",
                   "prefix": "Orders_orderStatus_check"
                 }
@@ -1058,6 +1096,7 @@
               "columns": {
                 "id": {
                   "codecId": "pg/int4@1",
+                  "dataType": "pg/int4",
                   "dataType": "pg/int4",
                   "default": {
                     "expression": "autoincrement()",
@@ -1068,15 +1107,18 @@
                 "idUser": {
                   "codecId": "pg/int4@1",
                   "dataType": "pg/int4",
+                  "dataType": "pg/int4",
                   "nullable": false
                 },
                 "orderDate": {
                   "codecId": "pg/timestamptz-string@1",
                   "dataType": "pg/timestamptz",
+                  "dataType": "pg/timestamptz",
                   "nullable": false
                 },
                 "orderStatus": {
                   "codecId": "pg/text@1",
+                  "dataType": "pg/text",
                   "dataType": "pg/text",
                   "default": {
                     "kind": "literal",
@@ -1096,11 +1138,15 @@
                   "index": {
                     "name": "Orders_idUser_idx_6acaa521"
                   },
+                  "index": {
+                    "name": "Orders_idUser_idx_6acaa521"
+                  },
                   "source": {
                     "columns": [
                       "idUser"
                     ],
                     "namespaceId": "public",
+                    "tableName": "Orders"
                     "tableName": "Orders"
                   },
                   "target": {
@@ -1108,6 +1154,7 @@
                       "id"
                     ],
                     "namespaceId": "public",
+                    "tableName": "User"
                     "tableName": "User"
                   }
                 }
@@ -1117,6 +1164,8 @@
                   "columns": [
                     "idUser"
                   ],
+                  "name": "Orders_idUser_idx_6acaa521",
+                  "prefix": "Orders_idUser_idx",
                   "name": "Orders_idUser_idx_6acaa521",
                   "prefix": "Orders_idUser_idx",
                   "unique": false
@@ -1130,9 +1179,12 @@
               "uniques": []
             },
             "Payment": {
+            "Payment": {
               "checks": [
                 {
                   "expression": "\"paymentMetod\" IN ('pix', 'cartão', 'boleto', 'paypal')",
+                  "name": "Payment_paymentMetod_check_a25b1114",
+                  "prefix": "Payment_paymentMetod_check"
                   "name": "Payment_paymentMetod_check_a25b1114",
                   "prefix": "Payment_paymentMetod_check"
                 },
@@ -1140,11 +1192,14 @@
                   "expression": "\"paymentStatus\" IN ('concluído', 'em processo', 'recusado')",
                   "name": "Payment_paymentStatus_check_d59e4170",
                   "prefix": "Payment_paymentStatus_check"
+                  "name": "Payment_paymentStatus_check_d59e4170",
+                  "prefix": "Payment_paymentStatus_check"
                 }
               ],
               "columns": {
                 "id": {
                   "codecId": "pg/int4@1",
+                  "dataType": "pg/int4",
                   "dataType": "pg/int4",
                   "default": {
                     "expression": "autoincrement()",
@@ -1155,25 +1210,30 @@
                 "idOrder": {
                   "codecId": "pg/int4@1",
                   "dataType": "pg/int4",
+                  "dataType": "pg/int4",
                   "nullable": false
                 },
                 "idUser": {
                   "codecId": "pg/int4@1",
+                  "dataType": "pg/int4",
                   "dataType": "pg/int4",
                   "nullable": false
                 },
                 "id_transacao_gateway": {
                   "codecId": "pg/text@1",
                   "dataType": "pg/text",
+                  "dataType": "pg/text",
                   "nullable": true
                 },
                 "paymentDate": {
                   "codecId": "pg/timestamptz-string@1",
                   "dataType": "pg/timestamptz",
+                  "dataType": "pg/timestamptz",
                   "nullable": false
                 },
                 "paymentMetod": {
                   "codecId": "pg/text@1",
+                  "dataType": "pg/text",
                   "dataType": "pg/text",
                   "nullable": false,
                   "valueSet": {
@@ -1185,6 +1245,7 @@
                 },
                 "paymentStatus": {
                   "codecId": "pg/text@1",
+                  "dataType": "pg/text",
                   "dataType": "pg/text",
                   "nullable": false,
                   "valueSet": {
@@ -1200,11 +1261,15 @@
                   "index": {
                     "name": "Payment_idOrder_idx_13561201"
                   },
+                  "index": {
+                    "name": "Payment_idOrder_idx_13561201"
+                  },
                   "source": {
                     "columns": [
                       "idOrder"
                     ],
                     "namespaceId": "public",
+                    "tableName": "Payment"
                     "tableName": "Payment"
                   },
                   "target": {
@@ -1213,9 +1278,13 @@
                     ],
                     "namespaceId": "public",
                     "tableName": "Orders"
+                    "tableName": "Orders"
                   }
                 },
                 {
+                  "index": {
+                    "name": "Payment_idUser_idx_6acaa521"
+                  },
                   "index": {
                     "name": "Payment_idUser_idx_6acaa521"
                   },
@@ -1225,12 +1294,14 @@
                     ],
                     "namespaceId": "public",
                     "tableName": "Payment"
+                    "tableName": "Payment"
                   },
                   "target": {
                     "columns": [
                       "id"
                     ],
                     "namespaceId": "public",
+                    "tableName": "User"
                     "tableName": "User"
                   }
                 }
@@ -1242,12 +1313,16 @@
                   ],
                   "name": "Payment_idOrder_idx_13561201",
                   "prefix": "Payment_idOrder_idx",
+                  "name": "Payment_idOrder_idx_13561201",
+                  "prefix": "Payment_idOrder_idx",
                   "unique": false
                 },
                 {
                   "columns": [
                     "idUser"
                   ],
+                  "name": "Payment_idUser_idx_6acaa521",
+                  "prefix": "Payment_idUser_idx",
                   "name": "Payment_idUser_idx_6acaa521",
                   "prefix": "Payment_idUser_idx",
                   "unique": false
@@ -1261,9 +1336,11 @@
               "uniques": []
             },
             "Product": {
+            "Product": {
               "columns": {
                 "description": {
                   "codecId": "sql/varchar@1",
+                  "dataType": "pg/varchar",
                   "dataType": "pg/varchar",
                   "nullable": false,
                   "typeParams": {
@@ -1272,6 +1349,7 @@
                 },
                 "id": {
                   "codecId": "pg/int4@1",
+                  "dataType": "pg/int4",
                   "dataType": "pg/int4",
                   "default": {
                     "expression": "autoincrement()",
@@ -1282,10 +1360,12 @@
                 "idCategory": {
                   "codecId": "pg/int4@1",
                   "dataType": "pg/int4",
+                  "dataType": "pg/int4",
                   "nullable": false
                 },
                 "name": {
                   "codecId": "sql/varchar@1",
+                  "dataType": "pg/varchar",
                   "dataType": "pg/varchar",
                   "nullable": false,
                   "typeParams": {
@@ -1295,10 +1375,12 @@
                 "price": {
                   "codecId": "pg/int4@1",
                   "dataType": "pg/int4",
+                  "dataType": "pg/int4",
                   "nullable": false
                 },
                 "stock": {
                   "codecId": "pg/int4@1",
+                  "dataType": "pg/int4",
                   "dataType": "pg/int4",
                   "nullable": false
                 }
@@ -1308,11 +1390,15 @@
                   "index": {
                     "name": "Product_idCategory_idx_f7a5d9d3"
                   },
+                  "index": {
+                    "name": "Product_idCategory_idx_f7a5d9d3"
+                  },
                   "source": {
                     "columns": [
                       "idCategory"
                     ],
                     "namespaceId": "public",
+                    "tableName": "Product"
                     "tableName": "Product"
                   },
                   "target": {
@@ -1320,6 +1406,7 @@
                       "id"
                     ],
                     "namespaceId": "public",
+                    "tableName": "Categories"
                     "tableName": "Categories"
                   }
                 }
@@ -1329,6 +1416,8 @@
                   "columns": [
                     "idCategory"
                   ],
+                  "name": "Product_idCategory_idx_f7a5d9d3",
+                  "prefix": "Product_idCategory_idx",
                   "name": "Product_idCategory_idx_f7a5d9d3",
                   "prefix": "Product_idCategory_idx",
                   "unique": false
@@ -1454,6 +1543,7 @@
                 "address": {
                   "codecId": "sql/varchar@1",
                   "dataType": "pg/varchar",
+                  "dataType": "pg/varchar",
                   "nullable": false,
                   "typeParams": {
                     "length": 255
@@ -1462,6 +1552,7 @@
                 "email": {
                   "codecId": "sql/varchar@1",
                   "dataType": "pg/varchar",
+                  "dataType": "pg/varchar",
                   "nullable": false,
                   "typeParams": {
                     "length": 150
@@ -1469,6 +1560,7 @@
                 },
                 "id": {
                   "codecId": "pg/int4@1",
+                  "dataType": "pg/int4",
                   "dataType": "pg/int4",
                   "default": {
                     "expression": "autoincrement()",
@@ -1479,6 +1571,7 @@
                 "name": {
                   "codecId": "sql/varchar@1",
                   "dataType": "pg/varchar",
+                  "dataType": "pg/varchar",
                   "nullable": false,
                   "typeParams": {
                     "length": 100
@@ -1487,10 +1580,12 @@
                 "password": {
                   "codecId": "pg/text@1",
                   "dataType": "pg/text",
+                  "dataType": "pg/text",
                   "nullable": false
                 },
                 "userName": {
                   "codecId": "pg/text@1",
+                  "dataType": "pg/text",
                   "dataType": "pg/text",
                   "nullable": false
                 }
@@ -1516,9 +1611,11 @@
               ]
             },
             "Variants": {
+            "Variants": {
               "columns": {
                 "color": {
                   "codecId": "sql/varchar@1",
+                  "dataType": "pg/varchar",
                   "dataType": "pg/varchar",
                   "nullable": false,
                   "typeParams": {
@@ -1527,6 +1624,7 @@
                 },
                 "id": {
                   "codecId": "pg/int4@1",
+                  "dataType": "pg/int4",
                   "dataType": "pg/int4",
                   "default": {
                     "expression": "autoincrement()",
@@ -1537,10 +1635,12 @@
                 "idProduct": {
                   "codecId": "pg/int4@1",
                   "dataType": "pg/int4",
+                  "dataType": "pg/int4",
                   "nullable": false
                 },
                 "name": {
                   "codecId": "sql/varchar@1",
+                  "dataType": "pg/varchar",
                   "dataType": "pg/varchar",
                   "nullable": false,
                   "typeParams": {
@@ -1550,10 +1650,12 @@
                 "stock": {
                   "codecId": "pg/int4@1",
                   "dataType": "pg/int4",
+                  "dataType": "pg/int4",
                   "nullable": false
                 },
                 "variantCode": {
                   "codecId": "pg/int4@1",
+                  "dataType": "pg/int4",
                   "dataType": "pg/int4",
                   "nullable": false
                 }
@@ -1563,11 +1665,15 @@
                   "index": {
                     "name": "Variants_idProduct_idx_101452b5"
                   },
+                  "index": {
+                    "name": "Variants_idProduct_idx_101452b5"
+                  },
                   "source": {
                     "columns": [
                       "idProduct"
                     ],
                     "namespaceId": "public",
+                    "tableName": "Variants"
                     "tableName": "Variants"
                   },
                   "target": {
@@ -1575,6 +1681,7 @@
                       "id"
                     ],
                     "namespaceId": "public",
+                    "tableName": "Product"
                     "tableName": "Product"
                   }
                 }
@@ -1584,6 +1691,8 @@
                   "columns": [
                     "idProduct"
                   ],
+                  "name": "Variants_idProduct_idx_101452b5",
+                  "prefix": "Variants_idProduct_idx",
                   "name": "Variants_idProduct_idx_101452b5",
                   "prefix": "Variants_idProduct_idx",
                   "unique": false
@@ -1628,6 +1737,8 @@
       "distinctOn": true,
       "forKeyShare": true,
       "forNoKeyUpdate": true,
+      "forKeyShare": true,
+      "forNoKeyUpdate": true,
       "jsonAgg": true,
       "lateral": true,
       "limit": true,
@@ -1643,7 +1754,15 @@
       "insertOnConflictSkip": true,
       "insertOnConflictTarget": true,
       "insertOnConflictWithoutTarget": true,
+      "forShare": true,
+      "forUpdate": true,
+      "insertOnConflictSkip": true,
+      "insertOnConflictTarget": true,
+      "insertOnConflictWithoutTarget": true,
       "lateral": true,
+      "lockNowait": true,
+      "lockOf": true,
+      "lockSkipLocked": true,
       "lockNowait": true,
       "lockOf": true,
       "lockSkipLocked": true,
