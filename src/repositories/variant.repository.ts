@@ -1,28 +1,35 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.sevice';
-import { Prisma, Variants } from '../generated/prisma/client';
+import { db } from '../prisma/db';
+import type { Scalars } from '@prisma/orm-postgres/family-contract/types';
+import type { Contract, Models } from '../prisma/contract.d';
+import type {
+  CreateInput,
+  ScalarUpdateInput,
+  UniqueConstraintCriterion,
+} from '@prisma/orm-postgres/orm-client';
+
+type Variants = Scalars<Models.public_Variants>;
 
 @Injectable()
 export class VariantsRepository {
-  constructor(private prisma: PrismaService) {}
-
   async findVariantById(id: number): Promise<Variants | null> {
-    return this.prisma.variants.findUnique({ where: { id } });
+    return db.orm.public.Variants.where({ id }).first();
   }
 
   async findAllVariants() {
-    return this.prisma.variants.findMany();
+    return db.orm.public.Variants.all();
   }
 
-  async create(data: Prisma.VariantsUncheckedCreateInput): Promise<Variants> {
-    return this.prisma.variants.create({ data });
+  async create(data: CreateInput<Contract, 'Variants'>): Promise<Variants> {
+    return db.orm.public.Variants.create(data);
   }
 
-  async delete(id: number): Promise<Variants> {
-    return this.prisma.variants.delete({ where: { id } });
+  async delete(id: number) {
+    return db.orm.public.Variants.where({ id }).deleteAll();
   }
 
-  async update(id: number, data: Partial<Variants>): Promise<Variants> {
-    return this.prisma.variants.update({ where: { id }, data });
+  async update(id: number, data: ScalarUpdateInput<Contract, 'Variants'>) {
+    return db.orm.public.Variants.where({ id }).update(data);
   }
 }

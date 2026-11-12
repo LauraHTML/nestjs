@@ -4,6 +4,7 @@ import { UserService } from './user.service';
 import { LoginDto } from '../dtos/user.dto';
 import { compare } from 'bcrypt-ts';
 import { JwtService } from '@nestjs/jwt';
+import { randomBytes, createHash } from 'node:crypto';
 
 @Injectable()
 export class AuthService {
@@ -23,6 +24,9 @@ export class AuthService {
 
   async login(dto: LoginDto) {
     const user = await this.userService.findByEmail(dto.email);
+    const generateRefreshToken = () => randomBytes(64).toString('base64url');
+    const hashToken = (token: string) =>
+      createHash('sha256').update(token).digest('hex');
 
     if (!user) {
       throw new UnauthorizedException('O email está incorreto');
@@ -32,7 +36,10 @@ export class AuthService {
     if (!comparePassword) {
       throw new UnauthorizedException('A senha está incorreta');
     }
-    const payload = { id: user.id };
+    const payload = { sub: user.id, email: user.email };
+    const accessToken = await this.jwtService.signAsync(payload, {
+      expiresIn: '15m',
+    });
 
     return {
       //signAsync: recebe o payload e devolve uma string: header.payload.signature

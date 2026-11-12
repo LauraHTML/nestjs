@@ -2,7 +2,7 @@
 
 model Categories {
   id           Int       @id @default(autoincrement())
-  categoryName Varchar(255)
+  name Varchar(255)
   description  Varchar(255)
   Product      Product[]
 }
@@ -42,9 +42,11 @@ model Payment {
 model Product {
   id          Int        @id @default(autoincrement())
   name        Varchar(255)
+  name        Varchar(255)
   idCategory  Int
   price       Int
   stock       Int
+  description Varchar(255)
   description Varchar(255)
   Categories  Categories @relation(fields: [idCategory], references: [id])
   Variants    Variants[]
@@ -52,6 +54,9 @@ model Product {
 
 model User {
   id       Int       @id @default(autoincrement())
+  email    Varchar(150)    @unique
+  name     Varchar(100)
+  address   Varchar(255)
   email    Varchar(150)    @unique
   name     Varchar(100)
   address   Varchar(255)
@@ -64,7 +69,9 @@ model User {
 model Variants {
   id          Int          @id @default(autoincrement())
   name Varchar(255)
+  name Varchar(255)
   idProduct   Int
+  color       Varchar(255)
   color       Varchar(255)
   stock       Int
   variantCode Int
@@ -85,4 +92,18 @@ enum Status {
   COMPLETED = "concluído"
   PENDING = "em processo"
   REFUSED = "recusado"
+}
+
+model RefreshToken {
+  id           Int    @id @default(autoincrement())
+  tokenHash    String    @unique
+  familyId     Int    
+  userId       Int
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt    DateTime
+  revokedAt    DateTime?
+  createdAt    DateTime  @default(now())
+
+  @@index([userId])
+  @@index([familyId])
 }

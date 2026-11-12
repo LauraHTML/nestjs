@@ -1,13 +1,15 @@
 #!/usr/bin/env -S node
-import type { Contract as End } from '../../snapshots/d091be57a839d058217118f45136f0ad18e27b63b613367bcdeb7d66e6ba6757/contract';
-import endContract from '../../snapshots/d091be57a839d058217118f45136f0ad18e27b63b613367bcdeb7d66e6ba6757/contract.json' with { type: 'json' };
+import type { Contract as End } from '../../snapshots/b2975c4754c9d91ab5aa81616126cc477bf452f92d83e708b4e9cbb13009abca/contract';
+import endContract from '../../snapshots/b2975c4754c9d91ab5aa81616126cc477bf452f92d83e708b4e9cbb13009abca/contract.json' with { type: 'json' };
 import {
   Migration,
   MigrationCLI,
   checkExpression,
   col,
+  fn,
   lit,
   primaryKey,
+  sql,
 } from '@prisma/orm-postgres/migration';
 
 export default class M extends Migration<never, End> {
@@ -18,23 +20,23 @@ export default class M extends Migration<never, End> {
       this.createSchema({ schema: 'public' }),
       this.createTable({
         schema: 'public',
-        table: 'categories',
+        table: 'Categories',
         columns: [
-          col('categoryName', 'character varying(255)', {
-            notNull: true,
-            codecRef: { codecId: 'sql/varchar@1', typeParams: { length: 255 } },
-          }),
           col('description', 'character varying(255)', {
             notNull: true,
             codecRef: { codecId: 'sql/varchar@1', typeParams: { length: 255 } },
           }),
           col('id', 'SERIAL', { notNull: true, codecRef: { codecId: 'pg/int4@1' } }),
+          col('name', 'character varying(255)', {
+            notNull: true,
+            codecRef: { codecId: 'sql/varchar@1', typeParams: { length: 255 } },
+          }),
         ],
         constraints: [primaryKey(['id'])],
       }),
       this.createTable({
         schema: 'public',
-        table: 'orderItens',
+        table: 'OrderItens',
         columns: [
           col('id', 'SERIAL', { notNull: true, codecRef: { codecId: 'pg/int4@1' } }),
           col('idOrder', 'int4', { notNull: true, codecRef: { codecId: 'pg/int4@1' } }),
@@ -46,7 +48,7 @@ export default class M extends Migration<never, End> {
       }),
       this.createTable({
         schema: 'public',
-        table: 'orders',
+        table: 'Orders',
         columns: [
           col('id', 'SERIAL', { notNull: true, codecRef: { codecId: 'pg/int4@1' } }),
           col('idUser', 'int4', { notNull: true, codecRef: { codecId: 'pg/int4@1' } }),
@@ -63,14 +65,14 @@ export default class M extends Migration<never, End> {
         constraints: [
           primaryKey(['id']),
           checkExpression(
-            'orders_orderStatus_check_87e3506c',
-            "\"orderStatus\" IN ('concluído', 'em processo', 'recusado')",
+            'Orders_orderStatus_check_87e3506c',
+            sql`"orderStatus" IN ('concluído', 'em processo', 'recusado')`,
           ),
         ],
       }),
       this.createTable({
         schema: 'public',
-        table: 'payment',
+        table: 'Payment',
         columns: [
           col('id', 'SERIAL', { notNull: true, codecRef: { codecId: 'pg/int4@1' } }),
           col('idOrder', 'int4', { notNull: true, codecRef: { codecId: 'pg/int4@1' } }),
@@ -86,18 +88,18 @@ export default class M extends Migration<never, End> {
         constraints: [
           primaryKey(['id']),
           checkExpression(
-            'payment_paymentMetod_check_a25b1114',
-            "\"paymentMetod\" IN ('pix', 'cartão', 'boleto', 'paypal')",
+            'Payment_paymentMetod_check_a25b1114',
+            sql`"paymentMetod" IN ('pix', 'cartão', 'boleto', 'paypal')`,
           ),
           checkExpression(
-            'payment_paymentStatus_check_d59e4170',
-            "\"paymentStatus\" IN ('concluído', 'em processo', 'recusado')",
+            'Payment_paymentStatus_check_d59e4170',
+            sql`"paymentStatus" IN ('concluído', 'em processo', 'recusado')`,
           ),
         ],
       }),
       this.createTable({
         schema: 'public',
-        table: 'product',
+        table: 'Product',
         columns: [
           col('description', 'character varying(255)', {
             notNull: true,
@@ -116,9 +118,32 @@ export default class M extends Migration<never, End> {
       }),
       this.createTable({
         schema: 'public',
-        table: 'user',
+        table: 'RefreshToken',
         columns: [
-          col('adress', 'character varying(255)', {
+          col('createdAt', 'timestamptz(3)', {
+            notNull: true,
+            default: fn(sql`now()`),
+            codecRef: { codecId: 'pg/timestamptz-date@1', typeParams: { precision: 3 } },
+          }),
+          col('expiresAt', 'timestamptz(3)', {
+            notNull: true,
+            codecRef: { codecId: 'pg/timestamptz-date@1', typeParams: { precision: 3 } },
+          }),
+          col('familyId', 'text', { notNull: true, codecRef: { codecId: 'pg/text@1' } }),
+          col('id', 'text', { notNull: true, codecRef: { codecId: 'pg/text@1' } }),
+          col('revokedAt', 'timestamptz(3)', {
+            codecRef: { codecId: 'pg/timestamptz-date@1', typeParams: { precision: 3 } },
+          }),
+          col('tokenHash', 'text', { notNull: true, codecRef: { codecId: 'pg/text@1' } }),
+          col('userId', 'int4', { notNull: true, codecRef: { codecId: 'pg/int4@1' } }),
+        ],
+        constraints: [primaryKey(['id'])],
+      }),
+      this.createTable({
+        schema: 'public',
+        table: 'User',
+        columns: [
+          col('address', 'character varying(255)', {
             notNull: true,
             codecRef: { codecId: 'sql/varchar@1', typeParams: { length: 255 } },
           }),
@@ -138,7 +163,7 @@ export default class M extends Migration<never, End> {
       }),
       this.createTable({
         schema: 'public',
-        table: 'variants',
+        table: 'Variants',
         columns: [
           col('color', 'character varying(255)', {
             notNull: true,
@@ -157,119 +182,147 @@ export default class M extends Migration<never, End> {
       }),
       this.addUnique({
         schema: 'public',
-        table: 'user',
-        constraint: 'user_email_key',
+        table: 'RefreshToken',
+        constraint: 'RefreshToken_tokenHash_key',
+        columns: ['tokenHash'],
+      }),
+      this.addUnique({
+        schema: 'public',
+        table: 'User',
+        constraint: 'User_email_key',
         columns: ['email'],
       }),
       this.addUnique({
         schema: 'public',
-        table: 'user',
-        constraint: 'user_userName_key',
+        table: 'User',
+        constraint: 'User_userName_key',
         columns: ['userName'],
       }),
       this.createIndex({
         schema: 'public',
-        table: 'orderItens',
-        index: 'orderItens_idOrder_idx_13561201',
+        table: 'OrderItens',
+        index: 'OrderItens_idOrder_idx_13561201',
         columns: ['idOrder'],
       }),
       this.createIndex({
         schema: 'public',
-        table: 'orderItens',
-        index: 'orderItens_idVariant_idx_ba13bdf6',
+        table: 'OrderItens',
+        index: 'OrderItens_idVariant_idx_ba13bdf6',
         columns: ['idVariant'],
       }),
       this.createIndex({
         schema: 'public',
-        table: 'orders',
-        index: 'orders_idUser_idx_6acaa521',
+        table: 'Orders',
+        index: 'Orders_idUser_idx_6acaa521',
         columns: ['idUser'],
       }),
       this.createIndex({
         schema: 'public',
-        table: 'payment',
-        index: 'payment_idOrder_idx_13561201',
+        table: 'Payment',
+        index: 'Payment_idOrder_idx_13561201',
         columns: ['idOrder'],
       }),
       this.createIndex({
         schema: 'public',
-        table: 'payment',
-        index: 'payment_idUser_idx_6acaa521',
+        table: 'Payment',
+        index: 'Payment_idUser_idx_6acaa521',
         columns: ['idUser'],
       }),
       this.createIndex({
         schema: 'public',
-        table: 'product',
-        index: 'product_idCategory_idx_f7a5d9d3',
+        table: 'Product',
+        index: 'Product_idCategory_idx_f7a5d9d3',
         columns: ['idCategory'],
       }),
       this.createIndex({
         schema: 'public',
-        table: 'variants',
-        index: 'variants_idProduct_idx_101452b5',
+        table: 'RefreshToken',
+        index: 'RefreshToken_familyId_idx_3d03045e',
+        columns: ['familyId'],
+      }),
+      this.createIndex({
+        schema: 'public',
+        table: 'RefreshToken',
+        index: 'RefreshToken_userId_idx_a489d58a',
+        columns: ['userId'],
+      }),
+      this.createIndex({
+        schema: 'public',
+        table: 'Variants',
+        index: 'Variants_idProduct_idx_101452b5',
         columns: ['idProduct'],
       }),
       this.addForeignKey({
         schema: 'public',
-        table: 'orderItens',
+        table: 'OrderItens',
         foreignKey: {
-          name: 'orderItens_idOrder_fkey',
+          name: 'OrderItens_idOrder_fkey',
           columns: ['idOrder'],
-          references: { schema: 'public', table: 'orders', columns: ['id'] },
+          references: { schema: 'public', table: 'Orders', columns: ['id'] },
         },
       }),
       this.addForeignKey({
         schema: 'public',
-        table: 'orderItens',
+        table: 'OrderItens',
         foreignKey: {
-          name: 'orderItens_idVariant_fkey',
+          name: 'OrderItens_idVariant_fkey',
           columns: ['idVariant'],
-          references: { schema: 'public', table: 'variants', columns: ['id'] },
+          references: { schema: 'public', table: 'Variants', columns: ['id'] },
         },
       }),
       this.addForeignKey({
         schema: 'public',
-        table: 'orders',
+        table: 'Orders',
         foreignKey: {
-          name: 'orders_idUser_fkey',
+          name: 'Orders_idUser_fkey',
           columns: ['idUser'],
-          references: { schema: 'public', table: 'user', columns: ['id'] },
+          references: { schema: 'public', table: 'User', columns: ['id'] },
         },
       }),
       this.addForeignKey({
         schema: 'public',
-        table: 'payment',
+        table: 'Payment',
         foreignKey: {
-          name: 'payment_idOrder_fkey',
+          name: 'Payment_idOrder_fkey',
           columns: ['idOrder'],
-          references: { schema: 'public', table: 'orders', columns: ['id'] },
+          references: { schema: 'public', table: 'Orders', columns: ['id'] },
         },
       }),
       this.addForeignKey({
         schema: 'public',
-        table: 'payment',
+        table: 'Payment',
         foreignKey: {
-          name: 'payment_idUser_fkey',
+          name: 'Payment_idUser_fkey',
           columns: ['idUser'],
-          references: { schema: 'public', table: 'user', columns: ['id'] },
+          references: { schema: 'public', table: 'User', columns: ['id'] },
         },
       }),
       this.addForeignKey({
         schema: 'public',
-        table: 'product',
+        table: 'Product',
         foreignKey: {
-          name: 'product_idCategory_fkey',
+          name: 'Product_idCategory_fkey',
           columns: ['idCategory'],
-          references: { schema: 'public', table: 'categories', columns: ['id'] },
+          references: { schema: 'public', table: 'Categories', columns: ['id'] },
         },
       }),
       this.addForeignKey({
         schema: 'public',
-        table: 'variants',
+        table: 'RefreshToken',
         foreignKey: {
-          name: 'variants_idProduct_fkey',
+          name: 'RefreshToken_userId_fkey',
+          columns: ['userId'],
+          references: { schema: 'public', table: 'User', columns: ['id'] },
+          onDelete: 'cascade',
+        },
+      }),
+      this.addForeignKey({
+        schema: 'public',
+        table: 'Variants',
+        foreignKey: {
+          name: 'Variants_idProduct_fkey',
           columns: ['idProduct'],
-          references: { schema: 'public', table: 'product', columns: ['id'] },
+          references: { schema: 'public', table: 'Product', columns: ['id'] },
         },
       }),
     ];
