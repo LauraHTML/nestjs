@@ -1,36 +1,38 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.sevice';
-import { Prisma, Product } from '../generated/prisma/client';
+import { db } from '../prisma/db';
+import type { Scalars } from '@prisma/orm-postgres/family-contract/types';
+import type { Contract, Models } from '../prisma/contract.d';
+import type {
+  CreateInput,
+  ScalarUpdateInput,
+  UniqueConstraintCriterion,
+} from '@prisma/orm-postgres/orm-client';
+
+type Product = Scalars<Models.public_Product>;
 
 @Injectable()
 export class ProductRepository {
-  constructor(private prisma: PrismaService) {}
-
-  async findProductById(id: number): Promise<Product | null> {
-    return this.prisma.product.findUnique({
-      where: { id },
-      include: { Categories: true, Variants: true },
-    });
+  async findProductById(id: number) {
+    return db.orm.public.Product.whereUnique({ id })
+      .include('Categories')
+      .include('Variants')
+      .first();
   }
 
   async findAllProducts() {
-    return this.prisma.product.findMany({
-      include: {
-        Categories: true,
-        Variants: true,
-      },
-    });
+    return db.orm.public.Product.all();
   }
 
-  async create(data: Prisma.ProductUncheckedCreateInput): Promise<Product> {
-    return this.prisma.product.create({ data });
+  async create(data: CreateInput<Contract, 'Product'>): Promise<Product> {
+    return db.orm.public.Product.create(data);
   }
 
-  async delete(id: number): Promise<Product> {
-    return this.prisma.product.delete({ where: { id } });
+  async delete(id: number) {
+    return db.orm.public.Product.where({ id }).deleteAll();
   }
 
-  async update(id: number, data: Partial<Product>): Promise<Product> {
-    return this.prisma.product.update({ where: { id }, data });
+  async update(id: number, data: ScalarUpdateInput<Contract, 'Product'>) {
+    return db.orm.public.Product.where({ id }).update(data);
   }
 }

@@ -45,7 +45,7 @@
     "execute": [
       {
         "description": "create table \"Categories\"",
-        "sql": "CREATE TABLE \"public\".\"Categories\" (\n  \"categoryName\" character varying(255) NOT NULL,\n  \"description\" character varying(255) NOT NULL,\n  \"id\" SERIAL NOT NULL,\n  PRIMARY KEY (\"id\")\n)",
+        "sql": "CREATE TABLE \"public\".\"Categories\" (\n  \"description\" character varying(255) NOT NULL,\n  \"id\" SERIAL NOT NULL,\n  \"name\" character varying(255) NOT NULL,\n  PRIMARY KEY (\"id\")\n)",
         "params": []
       }
     ],
@@ -290,7 +290,7 @@
     "execute": [
       {
         "description": "create table \"RefreshToken\"",
-        "sql": "CREATE TABLE \"public\".\"RefreshToken\" (\n  \"createdAt\" timestamptz(3) DEFAULT (now()) NOT NULL,\n  \"expiresAt\" timestamptz(3) NOT NULL,\n  \"familyId\" text NOT NULL,\n  \"id\" text NOT NULL,\n  \"revokedAt\" timestamptz(3),\n  \"tokenHash\" text NOT NULL,\n  \"userId\" text NOT NULL\n)",
+        "sql": "CREATE TABLE \"public\".\"RefreshToken\" (\n  \"createdAt\" timestamptz(3) DEFAULT (now()) NOT NULL,\n  \"expiresAt\" timestamptz(3) NOT NULL,\n  \"familyId\" text NOT NULL,\n  \"id\" text NOT NULL,\n  \"revokedAt\" timestamptz(3),\n  \"tokenHash\" text NOT NULL,\n  \"userId\" int4 NOT NULL,\n  PRIMARY KEY (\"id\")\n)",
         "params": []
       }
     ],

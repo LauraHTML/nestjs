@@ -1,30 +1,36 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../prisma.sevice';
-import { Categories } from '../generated/prisma/client';
+import { db } from '../prisma/db';
+import type { Scalars } from '@prisma/orm-postgres/family-contract/types';
+import type { Contract, Models } from '../prisma/contract.d';
+import type {
+  CreateInput,
+  ScalarUpdateInput,
+  UniqueConstraintCriterion,
+} from '@prisma/orm-postgres/orm-client';
+
+type Categories = Scalars<Models.public_Categories>;
 
 @Injectable()
 export class CategoryRepository {
-  //private: cria e atribui o valor dentro da classe
-  //instanciando o banco de dados, para usar os métodos, as queries do prisma
-  constructor(private prisma: PrismaService) {}
-
   async findAllCategories(): Promise<Categories[]> {
-    return this.prisma.categories.findMany();
+    return db.orm.public.Categories.limit(20).offset(20).all();
   }
 
-  async findCategoryById(id: number): Promise<Categories | null> {
-    return this.prisma.categories.findUnique({ where: { id } });
+  async findCategoryById(
+    id: UniqueConstraintCriterion<Contract, 'Categories'>,
+  ) {
+    return db.orm.public.Categories.whereUnique(id);
   }
 
-  async create(data: Categories): Promise<Categories> {
-    return this.prisma.categories.create({ data });
+  async create(data: CreateInput<Contract, 'Categories'>) {
+    return db.orm.public.Categories.create(data);
   }
 
-  async delete(id: number): Promise<Categories> {
-    return this.prisma.categories.delete({ where: { id } });
+  async delete(id: number) {
+    return db.orm.public.Categories.where({ id }).deleteAll();
   }
 
-  async update(id: number, data: Partial<Categories>): Promise<Categories> {
-    return this.prisma.categories.update({ where: { id }, data });
+  async update(id: number, data: ScalarUpdateInput<Contract, 'Categories'>) {
+    return db.orm.public.Categories.where({ id }).update(data);
   }
 }

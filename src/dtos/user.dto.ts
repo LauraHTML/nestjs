@@ -21,16 +21,7 @@ export class CreateUserDto {
   userName!: string;
 
   @IsString()
-  adress!: string;
-
-  @IsInt()
-  telephone!: number;
-
-  @IsInt()
-  cep!: number;
-
-  @IsString()
-  cpf!: string;
+  address!: string;
 }
 
 export class ResponseUserDto {
@@ -80,10 +71,8 @@ export class UpdateUserDto {
   password?: string | null;
 }
 
-export class signInDto {
-  @IsEmail()
-  email!: string;
-
-  @IsString()
-  password!: string;
+export class RefreshToken {
+  userId?: number;
+  token?: string;
+  expiresAt?: string;
 }

@@ -1,6 +1,6 @@
 #!/usr/bin/env -S node
-import type { Contract as End } from '../../snapshots/d025ab89a00b346979db47d628f45bfafedf9e90a57319a20b3c8021a729efd6/contract';
-import endContract from '../../snapshots/d025ab89a00b346979db47d628f45bfafedf9e90a57319a20b3c8021a729efd6/contract.json' with { type: 'json' };
+import type { Contract as End } from '../../snapshots/b2975c4754c9d91ab5aa81616126cc477bf452f92d83e708b4e9cbb13009abca/contract';
+import endContract from '../../snapshots/b2975c4754c9d91ab5aa81616126cc477bf452f92d83e708b4e9cbb13009abca/contract.json' with { type: 'json' };
 import {
   Migration,
   MigrationCLI,
@@ -22,15 +22,15 @@ export default class M extends Migration<never, End> {
         schema: 'public',
         table: 'Categories',
         columns: [
-          col('categoryName', 'character varying(255)', {
-            notNull: true,
-            codecRef: { codecId: 'sql/varchar@1', typeParams: { length: 255 } },
-          }),
           col('description', 'character varying(255)', {
             notNull: true,
             codecRef: { codecId: 'sql/varchar@1', typeParams: { length: 255 } },
           }),
           col('id', 'SERIAL', { notNull: true, codecRef: { codecId: 'pg/int4@1' } }),
+          col('name', 'character varying(255)', {
+            notNull: true,
+            codecRef: { codecId: 'sql/varchar@1', typeParams: { length: 255 } },
+          }),
         ],
         constraints: [primaryKey(['id'])],
       }),
@@ -135,8 +135,9 @@ export default class M extends Migration<never, End> {
             codecRef: { codecId: 'pg/timestamptz-date@1', typeParams: { precision: 3 } },
           }),
           col('tokenHash', 'text', { notNull: true, codecRef: { codecId: 'pg/text@1' } }),
-          col('userId', 'text', { notNull: true, codecRef: { codecId: 'pg/text@1' } }),
+          col('userId', 'int4', { notNull: true, codecRef: { codecId: 'pg/int4@1' } }),
         ],
+        constraints: [primaryKey(['id'])],
       }),
       this.createTable({
         schema: 'public',

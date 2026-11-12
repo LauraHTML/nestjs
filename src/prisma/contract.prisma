@@ -2,7 +2,7 @@
 
 model Categories {
   id           Int       @id @default(autoincrement())
-  categoryName Varchar(255)
+  name Varchar(255)
   description  Varchar(255)
   Product      Product[]
 }
@@ -88,9 +88,9 @@ enum Status {
 }
 
 model RefreshToken {
-  id           String    @onCreate(uuid())
+  id           Int    @id @default(autoincrement())
   tokenHash    String    @unique
-  familyId     String    // agrupa a cadeia de tokens de uma mesma sessão/login
+  familyId     Int    
   userId       Int
   user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   expiresAt    DateTime

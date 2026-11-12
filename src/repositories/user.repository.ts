@@ -1,35 +1,40 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../prisma.sevice';
-import { Prisma, User } from '../generated/prisma/client';
+import { db } from '../prisma/db';
+
+import type { Scalars } from '@prisma/orm-postgres/family-contract/types';
+import type { Contract, Models } from '../prisma/contract.d';
+import type {
+  CreateInput,
+  ScalarUpdateInput,
+  UniqueConstraintCriterion,
+} from '@prisma/orm-postgres/orm-client';
+
+type User = Scalars<Models.public_User>;
 
 @Injectable()
 export class UserRepository {
-  //private: cria e atribui o valor dentro da classe
-  //instanciando o banco de dados, para usar os métodos, as queries do prisma
-  constructor(private prisma: PrismaService) {}
-
-  async findUserById(id: number): Promise<User | null> {
-    return this.prisma.user.findUnique({ where: { id } });
+  async findUserById(id: UniqueConstraintCriterion<Contract, 'User'>) {
+    return db.orm.public.User.whereUnique(id);
   }
 
-  async findUserByEmail(email: string): Promise<User | null> {
-    return this.prisma.user.findUnique({ where: { email } });
+  async findUserByEmail(email: string) {
+    return db.orm.public.User.where({ email }).first();
   }
 
-  async create(data: Prisma.UserCreateInput): Promise<User> {
-    return this.prisma.user.create({ data });
+  async create(data: CreateInput<Contract, 'User'>): Promise<User> {
+    return db.orm.public.User.create(data);
   }
 
-  async delete(id: number): Promise<User> {
-    return this.prisma.user.delete({ where: { id } });
+  async delete(id: number) {
+    return db.orm.public.User.where({ id }).deleteAll();
   }
 
-  async update(id: number, data: Partial<User>): Promise<User> {
-    return this.prisma.user.update({ where: { id }, data });
+  async update(id: number, data: ScalarUpdateInput<Contract, 'User'>) {
+    return db.orm.public.User.where({ id }).update(data);
   }
 
-  async findEmail(): Promise<string[]> {
-    const users = await this.prisma.user.findMany({ select: { email: true } });
+  async findEmail() {
+    const users = await db.orm.public.User.select('email').all();
     return users.map((user) => user.email);
   }
 }

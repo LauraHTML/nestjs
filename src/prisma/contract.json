@@ -83,16 +83,6 @@
         "models": {
           "Categories": {
             "fields": {
-              "categoryName": {
-                "nullable": false,
-                "type": {
-                  "codecId": "sql/varchar@1",
-                  "kind": "scalar",
-                  "typeParams": {
-                    "length": 255
-                  }
-                }
-              },
               "description": {
                 "nullable": false,
                 "type": {
@@ -108,6 +98,16 @@
                 "type": {
                   "codecId": "pg/int4@1",
                   "kind": "scalar"
+                }
+              },
+              "name": {
+                "nullable": false,
+                "type": {
+                  "codecId": "sql/varchar@1",
+                  "kind": "scalar",
+                  "typeParams": {
+                    "length": 255
+                  }
                 }
               }
             },
@@ -130,14 +130,14 @@
             },
             "storage": {
               "fields": {
-                "categoryName": {
-                  "column": "categoryName"
-                },
                 "description": {
                   "column": "description"
                 },
                 "id": {
                   "column": "id"
+                },
+                "name": {
+                  "column": "name"
                 }
               },
               "namespaceId": "public",
@@ -602,14 +602,14 @@
               "familyId": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/text@1",
+                  "codecId": "pg/int4@1",
                   "kind": "scalar"
                 }
               },
               "id": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/text@1",
+                  "codecId": "pg/int4@1",
                   "kind": "scalar"
                 }
               },
@@ -633,7 +633,7 @@
               "userId": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/text@1",
+                  "codecId": "pg/int4@1",
                   "kind": "scalar"
                 }
               }
@@ -915,14 +915,6 @@
           "table": {
             "Categories": {
               "columns": {
-                "categoryName": {
-                  "codecId": "sql/varchar@1",
-                  "dataType": "pg/varchar",
-                  "nullable": false,
-                  "typeParams": {
-                    "length": 255
-                  }
-                },
                 "description": {
                   "codecId": "sql/varchar@1",
                   "dataType": "pg/varchar",
@@ -939,6 +931,14 @@
                     "kind": "function"
                   },
                   "nullable": false
+                },
+                "name": {
+                  "codecId": "sql/varchar@1",
+                  "dataType": "pg/varchar",
+                  "nullable": false,
+                  "typeParams": {
+                    "length": 255
+                  }
                 }
               },
               "foreignKeys": [],
@@ -1364,13 +1364,17 @@
                   }
                 },
                 "familyId": {
-                  "codecId": "pg/text@1",
-                  "dataType": "pg/text",
+                  "codecId": "pg/int4@1",
+                  "dataType": "pg/int4",
                   "nullable": false
                 },
                 "id": {
-                  "codecId": "pg/text@1",
-                  "dataType": "pg/text",
+                  "codecId": "pg/int4@1",
+                  "dataType": "pg/int4",
+                  "default": {
+                    "expression": "autoincrement()",
+                    "kind": "function"
+                  },
                   "nullable": false
                 },
                 "revokedAt": {
@@ -1387,8 +1391,8 @@
                   "nullable": false
                 },
                 "userId": {
-                  "codecId": "pg/text@1",
-                  "dataType": "pg/text",
+                  "codecId": "pg/int4@1",
+                  "dataType": "pg/int4",
                   "nullable": false
                 }
               },
@@ -1432,6 +1436,11 @@
                   "unique": false
                 }
               ],
+              "primaryKey": {
+                "columns": [
+                  "id"
+                ]
+              },
               "uniques": [
                 {
                   "columns": [
@@ -1612,25 +1621,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "d025ab89a00b346979db47d628f45bfafedf9e90a57319a20b3c8021a729efd6"
-  },
-  "execution": {
-    "executionHash": "4b2f356c8d911d454df276a3f46248bd1aa63d6e1eb268bcac148ad256f6ce90",
-    "mutations": {
-      "defaults": [
-        {
-          "onCreate": {
-            "id": "uuidv4",
-            "kind": "generator"
-          },
-          "ref": {
-            "entry": "RefreshToken",
-            "field": "id",
-            "namespace": "public"
-          }
-        }
-      ]
-    }
+    "storageHash": "72f9162363934be14c5db8238d7516afa4a49689b06ce87f60d6fb07ddfffd69"
   },
   "capabilities": {
     "postgres": {
