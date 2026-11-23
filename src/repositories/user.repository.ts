@@ -21,7 +21,7 @@ export class UserRepository {
     return db.orm.public.User.where({ email }).first();
   }
 
-  async create(data: CreateInput<Contract, 'User'>): Promise<User> {
+  async create(data: CreateInput<Contract, 'User'>) {
     return db.orm.public.User.create(data);
   }
 

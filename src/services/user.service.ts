@@ -54,7 +54,7 @@ export class UserService {
         'Formato de email inválido: Digite um email válido',
       );
     }
-    if (UserService.sanitizeText(dto.adress).length < 10) {
+    if (UserService.sanitizeText(dto.address).length < 10) {
       throw new BadRequestException(
         'Endereço muito curto: Digite um endereço válido',
       );
@@ -70,7 +70,7 @@ export class UserService {
 
     const user = await this.userRepository.create({
       email: dto.email,
-      adress: dto.adress,
+      adress: dto.address,
       password: await UserService.hashPassword(dto.password),
       userName: dto.userName,
       name: dto.name,
@@ -81,7 +81,7 @@ export class UserService {
       name: user.name,
       email: user.email,
       userName: user.userName,
-      adress: user.adress,
+      adress: user.address,
     };
   }
 
